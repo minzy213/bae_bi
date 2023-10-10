@@ -14,3 +14,5 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bae_bi.settings')
 
 application = get_wsgi_application()
+
+#testing 조인환
