@@ -1,3 +1,4 @@
+"안녕하세요"
 """
 Django settings for bae_bi project.
 
