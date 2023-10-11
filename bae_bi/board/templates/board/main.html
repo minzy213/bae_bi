@@ -1,3 +1,27 @@
 {% extends "./base.html" %} {% load static %} {% block main %}
-<h1>hello</h1>
+<div class="section section-properties">
+  <div class="container">
+    <div class="row">
+      {% for category in dict_category %}
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="property-item mb-30">
+          <div style="height: 300px">
+            <a href="{{category.url}}" class="img"
+              ><img src="{{category.path}}" alt="Image" class="img-fluid"
+            /></a>
+          </div>
+          <div class="property-content">
+            <div>
+              <span class="city d-block mb-3" style=""
+                ><center>{{category.name}}</center></span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- .item -->
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock main %}
