@@ -4,6 +4,8 @@ from django.db import models
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+    url = models.CharField(max_length=255, default="")
+    img_path = models.CharField(max_length=255, default="")
 
 
 class Store(models.Model):
@@ -11,6 +13,7 @@ class Store(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     min_delivery = models.IntegerField(default=0)
+    avg_rate = models.FloatField(default=0)
     category = models.ForeignKey(  # 해당 카테고리 점포가 있으면 삭제되지 않음
         Category, on_delete=models.PROTECT, related_name="category_set"
     )
