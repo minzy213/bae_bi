@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
+from .models import Category
 # Create your views here.
-def main(request):
 
     category = [
         {'name':'치킨', 'url':'chicken', 'path':"https://nenechicken.com/17_new/images/menu/30005.jpg"},
