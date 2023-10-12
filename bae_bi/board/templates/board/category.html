@@ -1,0 +1,60 @@
+{% extends "./base.html" %} {% load static %}{% block main %}
+<script>
+  function dragstart_handler(ev) {
+    console.log("dragStart");
+    // Change the source element's background color to signify drag has started
+    ev.currentTarget.style.border = "dashed";
+    // Add the id of the drag source element to the drag data payload so
+    // it is available when the drop event is fired
+    ev.dataTransfer.setData("text", ev.target.id);
+    // Tell the browser both copy and move are possible
+    ev.effectAllowed = "copyMove";
+  }
+  function dragover_handler(ev) {
+    console.log("dragOver");
+    // Change the target element's border to signify a drag over event
+    // has occurred
+    ev.currentTarget.style.background = "lightblue";
+    ev.preventDefault();
+  }
+  function drop_handler(ev) {
+    console.log("Drop");
+    ev.preventDefault();
+    // Get the id of drag source element (that was added to the drag data
+    // payload by the dragstart event handler)
+    var id = ev.dataTransfer.getData("text");
+    // Copy the element if the source and destination ids are both "copy"
+    if (id == "src_copy" && ev.target.id == "dest_copy") {
+      var nodeCopy = document.getElementById(id).cloneNode(true);
+      nodeCopy.id = "newId";
+      ev.target.appendChild(nodeCopy);
+    }
+  }
+  function dragend_handler(ev) {
+    console.log("dragEnd");
+    // Restore source's border
+    ev.target.style.border = "solid black";
+  }
+</script>
+<ol>
+  <li
+    draggable="true"
+    id="src_copy"
+    ondragstart="dragstart_handler(event);"
+    ondragend="dragend_handler(event);"
+  >
+    Select this element and drag to the <strong>Copy Drop Zone</strong>.
+  </li>
+</ol>
+
+<div style="height: 50px" class="card">
+  <strong
+    class="card-body"
+    id="dest_copy"
+    ondrop="drop_handler(event);"
+    ondragover="dragover_handler(event);"
+    >cart</strong
+  >
+</div>
+
+{% endblock main %}
