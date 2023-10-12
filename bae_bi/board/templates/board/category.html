@@ -2,59 +2,63 @@
 <script>
   function dragstart_handler(ev) {
     console.log("dragStart");
-    // Change the source element's background color to signify drag has started
-    ev.currentTarget.style.border = "dashed";
-    // Add the id of the drag source element to the drag data payload so
-    // it is available when the drop event is fired
+    //ev.currentTarget.style.border = "dashed";
     ev.dataTransfer.setData("text", ev.target.id);
-    // Tell the browser both copy and move are possible
     ev.effectAllowed = "copyMove";
   }
   function dragover_handler(ev) {
     console.log("dragOver");
-    // Change the target element's border to signify a drag over event
-    // has occurred
-    ev.currentTarget.style.background = "lightblue";
+    //ev.currentTarget.style.background = "lightblue";
     ev.preventDefault();
   }
   function drop_handler(ev) {
     console.log("Drop");
     ev.preventDefault();
-    // Get the id of drag source element (that was added to the drag data
-    // payload by the dragstart event handler)
     var id = ev.dataTransfer.getData("text");
-    // Copy the element if the source and destination ids are both "copy"
-    if (id == "src_copy" && ev.target.id == "dest_copy") {
+    if (ev.target.id == "dest_copy") {
       var nodeCopy = document.getElementById(id).cloneNode(true);
+      nodeCopy.style.height = "70px";
       nodeCopy.id = "newId";
       ev.target.appendChild(nodeCopy);
     }
   }
   function dragend_handler(ev) {
     console.log("dragEnd");
-    // Restore source's border
-    ev.target.style.border = "solid black";
+    //ev.target.style.border = "solid black";
   }
 </script>
-<ol>
-  <li
-    draggable="true"
-    id="src_copy"
-    ondragstart="dragstart_handler(event);"
-    ondragend="dragend_handler(event);"
-  >
-    Select this element and drag to the <strong>Copy Drop Zone</strong>.
-  </li>
-</ol>
-
-<div style="height: 50px" class="card">
-  <strong
-    class="card-body"
-    id="dest_copy"
-    ondrop="drop_handler(event);"
-    ondragover="dragover_handler(event);"
-    >cart</strong
-  >
+<div style="display: flex;">
+  <div style="width: 80%;">
+    <ol class="list-group" style="row-gap: 3px; margin: 3px;">
+      {% for store in cat_list.store_list %}
+      <li
+        style="height: 100pt;"
+        class="list-group-item"
+        draggable="true"
+        id="{{store.name}}"
+        ondragstart="dragstart_handler(event);"
+        ondragend="dragend_handler(event);"
+      >
+        <p><strong>{{store.name}}</strong> | {{store.company}}</p>
+        <p>{{store.coupon}}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div style="width: 20%; margin-right: 10px;" class="card">
+    <strong
+      class="card-body"
+      id="dest_copy"
+      ondrop="drop_handler(event);"
+      ondragover="dragover_handler(event);"
+      >cart</strong
+    >
+    <center>
+      <button class="btn btn-outline-success active" style="width: 70%; margin-bottom: 1pt; background-color: #005555;  justify-content: center; ">
+        비교
+      </button>
+    </center>
+    <!-- 버튼타입 type="submit" -->
+  </div>
 </div>
-
 {% endblock main %}

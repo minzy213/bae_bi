@@ -11,5 +11,10 @@ def main(request):
 
 def category(request, category_name):
     #카테고리에 맞는 데이터를 받아와서 넘겨줘야 합니다.
-    
-    return render(request, 'board/category.html' )
+    cat_list = {
+        'name': '치킨', 'store_list' : [
+            {'name':'BHC 동판교점','company':'요기요' ,'coupon': '요기요 5% 할인'},
+            {'name':'교촌치킨 동판교점','company':'배민', 'coupon': '배민 2,000원 할인'},
+        ]
+    }
+    return render(request, 'board/category.html' , {'cat_list':cat_list})
