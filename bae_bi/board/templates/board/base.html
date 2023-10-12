@@ -23,7 +23,7 @@
     />
     <link
       rel="stylesheet"
-      href="{% static 'bootstrap/onts/flaticon/font/flaticon.css' %}?after"
+      href="{% static 'bootstrap/fonts/flaticon/font/flaticon.css' %}?after"
     />
 
     <link
@@ -36,7 +36,7 @@
       href="{% static 'bootstrap/css/style.css' %}?after"
     />
 
-    <title>bae-bi's main page</title>
+    <title>{% block pagename %}{% endblock pagename %}</title>
   </head>
   <body>
     <nav class="site-nav">
@@ -81,8 +81,10 @@
         </div>
       </div>
 
-      <main class="flex-shrink-0">
-        <div style="padding-top: 100px">{% block main %}{% endblock %}</div>
+      <main class="flex-shrink-0" style="padding-top: 100px">
+        <div>
+          {% block main %}{% endblock main %}
+        </div>
       </main>
     </nav>
   </body>
