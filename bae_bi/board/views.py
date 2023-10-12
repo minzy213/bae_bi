@@ -4,19 +4,37 @@ from .models import Category
 # Create your views here.
 
 
-def main(request):
-
+def main(request):  # 수정한 코드
     cat_list = Category.objects.all()
     category = []
 
     for cat in cat_list:
-        category = {
+        cat_dict = {
             'id': cat.id,
             'name': cat.name,
             'url': cat.url,
             'img_path': cat.img_path,
         }
-        category.append(category)
+        category.append(cat_dict)
+
+    return render(request, 'board/main.html', {'category': category})
+
+
+# def main(request):
+
+#     cat_list = Category.objects.all()
+#     category = []
+
+#     for cat in cat_list:
+#         category = {
+#             'id': cat.id,
+#             'name': cat.name,
+#             'url': cat.url,
+#             'img_path': cat.img_path,
+#         }
+#         category.append(category)
+
+#     return render(request, 'board/main.html', {'category': category})
 
     # dict_category = [
     #     {'name': '치킨', 'url': 'chicken',
@@ -24,7 +42,8 @@ def main(request):
     #     {'name': '한식', 'url': 'korean',
     #         'path': "http://www.hotelrestaurant.co.kr/data/photos/20180205/art_15175330519518_43b250.bmp"},
     # ]
-    return render(request, 'board/main.html', {'category': category})
+
+    # return render(request, 'board/main.html', {'category': category})
 
 
 # def category(request):
