@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
+from .models import Category
 # Create your views here.
+
+
 def main(request):
 
     dict_category = [
@@ -10,4 +13,16 @@ def main(request):
     return render(request, 'board/main.html', {"dict_category":dict_category} )
 
 def category(request):
-    pass
+    cat_list = Category.objects.all()
+    category = []
+
+    for cat in cat_list:
+        category = {
+            'id': cat.id,
+            'name': cat.name,
+            'url': cat.url,
+            'img_path': cat.img_path,
+        }
+        category.append(category)
+
+    return {'categories': category}
