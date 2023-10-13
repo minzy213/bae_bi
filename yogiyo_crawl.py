@@ -10,8 +10,8 @@ def click_interception_handling(element):
     exception_encountered_cnt = 0
     while True:
         try:
-            time.sleep(3)
             element.click()
+            time.sleep(1)
             break
         except Exception as e:
             if type(e).__name__ == 'ElementClickInterceptedException':
@@ -48,7 +48,6 @@ def restaurant_search_by_query(query, category, restaurant_no):
     }
 
     driver.get('https://www.yogiyo.co.kr/mobile/#/')
-    driver.implicitly_wait(5)
     time.sleep(3)
 
     search_window = driver.find_element(By.XPATH, '//*[@id="search"]/div/form/input')
@@ -61,29 +60,13 @@ def restaurant_search_by_query(query, category, restaurant_no):
 
     tab = driver.find_element(By.XPATH, f'//*[@id="category"]/ul/li[{category_dict[category]}]/span')
     click_interception_handling(tab)
-    time.sleep(1)
 
     # 1. 음식점 목록
-    
-    # 스크롤 맨 끝까지 내리기
-    last_height = driver.execute_script("return document.body.scrollHeight")
-
-    while True:
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(0.5)
-
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        if new_height == last_height:
-            break
-        last_height = new_height
 
     # 음식점 목록 구하기
     restaurants = [restaurant.text for restaurant in driver.find_elements(By.CLASS_NAME, 'restaurant-name')[:restaurant_no]]
     # 음식점별 세부 정보 링크
     restaurant_links = driver.find_elements(By.CSS_SELECTOR, '[ng-click="select_restaurant(restaurant, $index)"]')[:restaurant_no]
-    
-    # 다시 스크롤 맨 위로 올리기
-    driver.execute_script("window.scrollTo(0, 0);")
 
     return driver, restaurants, len(restaurant_links), restaurant_links
 
@@ -94,7 +77,6 @@ def get_restaurant_infos(query, category):
     infos_by_restaurant = {}
 
     for i in range(links_no):
-        running_driver.implicitly_wait(5)
         infos = {}
 
         # 2. 배달 시간
@@ -102,126 +84,137 @@ def get_restaurant_infos(query, category):
                                                 f'//*[@id="content"]/div/div[4]/div/div[2]/div[{i + 1}]/div/table/tbody/tr/td[2]/div/ul/li[4]').text
         
         # 점포 링크 접속
-        scroll_y_coord = 0
-        while True:
-            try:
-                click_interception_handling(links_lst[i])
-                break
-            except Exception as e:
-                 # 스크롤이 안 내려가서 클릭이 안 되면 클릭
-                if type(e).__name__ == 'ElementClickInterceptedException':
-                    scroll_y_coord += 500
-                    running_driver.execute_script(f'window.scrollTo(0, {scroll_y_coord});')
-
+        if i > 10:
+            running_driver.execute_script('window.scrollTo(0, 300);')
+        click_interception_handling(links_lst[i])
         time.sleep(3)
-
-        # 3. 배달팁
-        try:
-            infos['delivery_tip'] = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[2]/ng-include/div/div[2]/div[4]/span[1]').text
-        except Exception as e:
-            if type(e).__name__ == 'NoSuchElementException':
-                infos['delivery_tip'] = None
+        
+        # 3. 배달팁 - 배달팁이 없으면 '0원'으로 저장됨
+        delivery_tip = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[2]/ng-include/div/div[2]/div[4]/span[1]').get_attribute('innerHTML')
+        infos['delivery_tip'] = re.findall('[\d,]+원', delivery_tip)[0]
 
         # 4. 최소주문금액
         infos['delivery_available_price'] = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/div[1]/div[2]/ul/li[3]/span').text
 
         # 5. 할인 정보 - 할인 정보 없으면 '추가할인 0%'라는 텍스트가 저장됨
-        infos['promotions'] = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/div[1]/div[2]/ul/li[7]/span[2]').text
+        infos['promotions'] = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/div[1]/div[2]/ul/li[2]/span').text
         
         # 6. 로고 이미지
         logo_element = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/div[1]/div[2]/div[1]').get_attribute('style')
         infos['logo'] = re.findall('\"(.+?)\"', logo_element)[0]
         
         # 7. 메뉴 및 썸네일 크롤링
+        menus_info_dict = {}
         menus = []
+        descs = []
         imgs = []
+        prices = []
         prices_dc = []
-        menu_tabs = running_driver.find_elements(By.CSS_SELECTOR, 'span.menu-name')
 
-        for button_idx in range(2, len(menu_tabs)):
-            click_interception_handling(menu_tabs[button_idx])
-            time.sleep(1)
+        menu_tabs = running_driver.find_elements(By.CSS_SELECTOR, '[ng-repeat="category in restaurant.menu"]')[2:]
+        for menu_infos in menu_tabs:
 
-            j = 1
-            list_valid = True
-            while list_valid:
-                parent_xpath = f'//*[@id="menu"]/div/div[{button_idx + 1}]/div[2]/div/ul'
-                shared_children_xpath = '/table/tbody/tr'
-                try:
-                    # 7-1 메뉴 크롤링
-                    menus.append(running_driver.find_element(By.XPATH,
-                                parent_xpath + f'/li[{j}]' + shared_children_xpath + '/td[1]/div[2]').text)
+            # 7-1 메뉴 크롤링
+            for menu_element in menu_infos.find_elements(By.CSS_SELECTOR, 'div.menu-name'):
+                menus.append(menu_element.get_attribute('innerHTML'))
 
-                    # 7-2 썸네일 URL 크롤링 - 썸네일 없으면 None
-                    img_element = running_driver.find_element(By.XPATH,
-                                                parent_xpath + f'/li[{j}]' + shared_children_xpath + '/td[2]/div').get_attribute('style')
-                    img_url = re.findall('\"(.+?)\"', img_element)[0]
-                    if img_url.startswith('https://'):
-                        imgs.append(img_url)
-                    else:
-                        imgs.append(None)
-                    
-                    # 7-3 가격 크롤링
-                    prices_dc.append(running_driver.find_element(By.XPATH,
-                                     parent_xpath + f'/li[{j}]' + shared_children_xpath + '/td[1]/div[4]/span[2]').get_attribute('innerHTML'))
-                    
-                    j += 1
-                except Exception as e:
-                    if type(e).__name__ == 'NoSuchElementException':
-                        list_valid = False
+            # 7-2. 메뉴 소개 크롤링
+            for desc_element in menu_infos.find_elements(By.CLASS_NAME, 'menu-desc'):
+                descs.append(desc_element.get_attribute('innerHTML'))
 
-            infos['menus_info'] = list(zip(menus, imgs, prices_dc))
+            # 7-3. 썸네일 크롤링
+            img_elements = menu_infos.find_elements(By.CLASS_NAME, 'photo')
+            for element in img_elements:
+                img_attr = element.get_attribute('style') 
+                filtered = re.findall('(https://.+?)\"', img_attr)
+                if len(filtered) > 0:
+                    img_url = filtered[0]
+                else:
+                    img_url = ''
+                imgs.append(img_url)
+            
+            # 7-4. 할인 전 가격 크롤링
+            for price_element in menu_infos.find_elements(By.CSS_SELECTOR, '[ng-bind="item.price|krw"]'):
+                prices.append(price_element.get_attribute('innerHTML'))
+
+            # 7-5. 할인 후 가격 크롤링
+            for dc_element in menu_infos.find_elements(By.CLASS_NAME, 'color-price'):
+                prices_dc.append(dc_element.get_attribute('innerHTML'))
         
+        for menu, desc, img, price, price_dc in zip(menus, descs, imgs, prices, prices_dc):
+            menus_info_dict[menu] = {'desc': desc, 'img': img, 'price': price, 'price_dc': price_dc}
+
+        infos['menu'] = menus_info_dict
 
         # 8. 리뷰 및 별점 크롤링
         review_tab = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/ul/li[2]/a')
         click_interception_handling(review_tab)
 
-        # 리뷰 30개는 띄울 수 있도록 '더 보기' 버튼 3번 클릭
-        for _ in range(3):
-            try:
+        # 리뷰 30개는 띄울 수 있도록 '더 보기' 버튼 최대 3번 클릭
+        reviews = int(running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/ul/li[2]/a/span').text)
+        
+        if reviews > 10: # 더 보기 버튼은 리뷰가 10개 넘게 있을 때만 존재
+            if reviews <= 30:
+                clicks = (reviews - 1) // 10 # 11~20개 리뷰는 클릭 한 번, 21~30개 리뷰는 클릭 두 번
+            else:
+                clicks = 3 # 그보다 많은 리뷰는 클릭 세 번
+
+            button_row = 12 # XPath 상에서의 버튼 위치 - 리뷰 더 볼 때마다 10씩 증가
+            for _ in range(clicks):
                 running_driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-                view_more = running_driver.find_element(By.XPATH, '//*[@id="review"]/li[12]/a')
+                view_more = running_driver.find_element(By.XPATH, f'//*[@id="review"]/li[{button_row}]/a')
                 click_interception_handling(view_more)
-            except Exception as e: # 리뷰가 30개보다 적으면 알아서 끊어짐
-                if type(e).__name__ == 'NoSuchElementException':
-                    break
-                else: 
-                    print(type(e).__name__)
-                    break
+                button_row += 10
+            
 
-        reviews_info = []
+        review_ids = []
+        uploaded_times = []
+        ordered_menus = []
+        rates = []
+        review_texts = []
+        review_imgs = []
 
-        j = 2
-        list_valid = True
-        while list_valid:
+        # 8-1. 리뷰어 아이디 크롤링
+        for review_id in running_driver.find_elements(By.CLASS_NAME, 'review-id'):
+            review_ids.append(review_id.text)
+
+        # 8-2. 리뷰 날짜 크롤링
+        for upload_time in running_driver.find_elements(By.CLASS_NAME, 'review-time'):
+            uploaded_times.append(upload_time.text)
+
+        # 8-3. 주문 메뉴 크롤링
+        for orders in running_driver.find_elements(By.CLASS_NAME, 'order-items'):
+            ordered_menus.append(orders.text)
+
+        # 8-4. 별점 크롤링
+        stars = running_driver.find_elements(By.CSS_SELECTOR, 'div.star-point')
+        for star_area in stars:
+            star = star_area.find_element(By.CSS_SELECTOR, 'span.total')
+            rate = len(star.find_elements(By.CLASS_NAME, 'full'))
+            rates.append(rate)
+
+        # 8-5. 리뷰 크롤링
+        reviews = running_driver.find_elements(By.CSS_SELECTOR, '[ng-show="review.comment"]')
+        for review in reviews:
+            review_texts.append(review.text)
+
+        # 8-6. 리뷰 이미지 크롤링
+        review_panels = running_driver.find_elements(By.CSS_SELECTOR, '.list-group-item.ng-scope')
+        for panel in review_panels:
             try:
-                info_dict = {}
-                # 8-1. 주문 메뉴 크롤링
-                info_dict['menu'] = running_driver.find_element(By.XPATH, f'//*[@id="review"]/li[{j}]/div[3]').text
-                # 8-2. 별점 크롤링
-                rate_cnt = 0
-                for k in range(1, 6):
-                    star_mark = running_driver.find_element(By.XPATH, f'//*[@id="review"]/li[{j}]/div[2]/div/span[1]/span[{k}]')
-                    if star_mark.get_attribute('class').split()[0] == 'full':
-                        rate_cnt += 1
-
-                info_dict['rate'] = rate_cnt
-
-                # 8-3. 리뷰 크롤링
-                info_dict['review'] = running_driver.find_element(By.XPATH, f'//*[@id="review"]/li[{j}]/p').text
-
-                j += 1
-                reviews_info.append(info_dict)
+                img = panel.find_element(By.TAG_NAME, 'img').get_attribute('ng-src')
+                review_imgs.append(img)
             except Exception as e:
                 if type(e).__name__ == 'NoSuchElementException':
-                        list_valid = False
+                    review_imgs.append('')
+
+        reviews_info = [{'review_id': r_id, 'uploaded': uploaded, 'order': order, 'rate': star_rate, 'review': review_text, 'img': review_img}
+                        for r_id, uploaded, order, star_rate, review_text, review_img in zip(review_ids, uploaded_times, ordered_menus, rates, review_texts, review_imgs)]
         
         infos['reviews_info'] = reviews_info
 
         infos_by_restaurant[restaurants[i]] = infos
         
-
         # 같은 드라이버로 뒤로가기를 누른 후 다른 음식점으로 접속하려 하면 Stale Element Exception이 발생하기 때문에
         # 새 드라이버를 열고 재접속
         running_driver.close()
@@ -230,15 +223,15 @@ def get_restaurant_infos(query, category):
 
     return infos_by_restaurant
 
-
 if __name__ == '__main__':
     restaurant_categories = {
+        
         '치킨': 'chicken',
         '피자/양식': 'pizza',
         '중국집': 'chinese',
         '한식': 'korean',
-        '야식': 'latenight',
-        '분식': 'snack'
+        '일식/돈까스': 'japanese',
+        '족발/보쌈': 'jokbal'
     }
 
     for cat, filename in restaurant_categories.items():
