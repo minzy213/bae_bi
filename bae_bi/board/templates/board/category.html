@@ -11,15 +11,18 @@
     //ev.currentTarget.style.background = "lightblue";
     ev.preventDefault();
   }
+  var test = [];
   function drop_handler(ev) {
     console.log("Drop");
     ev.preventDefault();
     var id = ev.dataTransfer.getData("text");
-    if (ev.target.id == "dest_copy") {
+    if (!test.includes(id) && ev.target.id == "dest_copy") {
       var nodeCopy = document.getElementById(id).cloneNode(true);
       nodeCopy.style.height = "70px";
-      nodeCopy.id = "newId";
       ev.target.appendChild(nodeCopy);
+      console.log(test);
+      console.log(id);
+      test.push(id);
     }
   }
   function dragend_handler(ev) {
@@ -27,25 +30,30 @@
     //ev.target.style.border = "solid black";
   }
 </script>
-<div style="display: flex;">
-  <div style="width: 80%;">
-    <ol class="list-group" style="row-gap: 3px; margin: 3px;">
+<div style="display: flex">
+  {% comment %} 여기에 디테일 정보 temp.html {% endcomment %}
+  <div style="position: relative; z-index: 1; width: 80%">
+    <ol class="list-group" style="row-gap: 3px; margin: 3px">
       {% for store in cat_list.store_list %}
-      <li
-        style="height: 100pt;"
-        class="list-group-item"
-        draggable="true"
-        id="{{store.name}}"
-        ondragstart="dragstart_handler(event);"
-        ondragend="dragend_handler(event);"
-      >
+      <li style="height: 100pt" class="list-group-item">
         <p><strong>{{store.name}}</strong> | {{store.company}}</p>
         <p>{{store.coupon}}</p>
       </li>
       {% endfor %}
     </ol>
   </div>
-  <div style="width: 20%; margin-right: 10px;" class="card">
+  <div
+    style="
+      position: relative;
+      z-index: 3;
+      width: 20%;
+      margin-right: 10px;
+      position: fixed;
+      margin-left: 80%;
+      height: 600px;
+    "
+    class="card"
+  >
     <strong
       class="card-body"
       id="dest_copy"
@@ -54,7 +62,15 @@
       >cart</strong
     >
     <center>
-      <button class="btn btn-outline-success active" style="width: 70%; margin-bottom: 1pt; background-color: #005555;  justify-content: center; ">
+      <button
+        class="btn btn-outline-success active"
+        style="
+          width: 70%;
+          margin-bottom: 1pt;
+          background-color: #005555;
+          justify-content: center;
+        "
+      >
         비교
       </button>
     </center>
