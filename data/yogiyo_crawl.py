@@ -81,7 +81,7 @@ def restaurant_search_by_query(query, category, restaurant_no):
 
 
 def get_restaurant_infos(query, category):
-    running_driver, restaurants, links_no, lst = restaurant_search_by_query(query = query, category = category, restaurant_no = 1)
+    running_driver, restaurants, links_no, lst = restaurant_search_by_query(query = query, category = category, restaurant_no = 15)
     links_lst = lst
     infos_by_restaurant = {}
 
@@ -273,7 +273,7 @@ def get_restaurant_infos(query, category):
         # 새 드라이버를 열고 재접속
         running_driver.close()
         if i < links_no - 1:
-            running_driver, _, _, links_lst = restaurant_search_by_query(query = query, category = category, restaurant_no = 1)
+            running_driver, _, _, links_lst = restaurant_search_by_query(query = query, category = category, restaurant_no = 15)
 
     return infos_by_restaurant
 
