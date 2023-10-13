@@ -17,7 +17,7 @@ class Store(models.Model):
     category = models.ForeignKey(  # 해당 카테고리 점포가 있으면 삭제되지 않음
         Category, on_delete=models.PROTECT, related_name="category_set"
     )
-    thumbnail_path = models.CharField(max_length=255, null=True)
+    thumbnail_path = models.CharField(max_length=350, null=True)
 
 
 class Delivery_info(models.Model):
@@ -30,7 +30,6 @@ class Delivery_info(models.Model):
     fee = models.CharField(max_length=255)
     coupon = models.CharField(max_length=255)
 
-
 class Menu(models.Model):
     id = models.AutoField(primary_key=True)
     store = models.ForeignKey(  # 해당 점포 삭제 시 메뉴도 함께 삭제
@@ -39,7 +38,15 @@ class Menu(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField()
     info = models.CharField(max_length=255, null=True)
-    thumbnail_path = models.CharField(max_length=255, null=True)
+    thumbnail_path = models.TextField(null=True, default='')
+    is_soldout = models.BooleanField(default = False)
+    
+class Promotion(models.Model):
+    id = models.AutoField(primary_key=True)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='menu_set')
+    service = models.CharField(max_length=255)
+    discount = models.IntegerField()
+    
 
 
 class User(models.Model):
