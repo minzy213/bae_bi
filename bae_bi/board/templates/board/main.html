@@ -6,23 +6,26 @@ page{% endblock pagename %} {% block main %}
       {% for ctg in category %}
       <div class="card col-xs-12 col-sm-6 col-md-6 col-lg-4">
         <div class="property-item mb-30">
-          <div style="height: 200pt">
+          <div style="height: 250pt">
             <a href="{{ctg.url}}" class="img">
-              <img
-                src="{{ctg.path}}"
-                alt="Image"
-                class="img-fluid"
-                style="margin-top: 10px; height: 80%;"
-              />
+              <center>
+                <img
+                  src="{{ctg.path}}"
+                  alt="Image"
+                  class="img-fluid"
+                  style="margin-top: 10px; height: 80%"
+                />
+              </center>
             </a>
           </div>
-          <div class="card-body" style="margin-top: 15%">
+          <div
+            class="card-body property-content"
+            style="position: relative; bottom: -10px"
+          >
             <a href="{{ctg.url}}">
-              <div class="card-title property-content">
-                <span class="city d-block mb-3">
-                  <center>{{ctg.name}}</center>
-                </span>
-              </div>
+              <span class="city d-block mb-3">
+                <center>{{ctg.name}}</center>
+              </span>
             </a>
           </div>
         </div>
