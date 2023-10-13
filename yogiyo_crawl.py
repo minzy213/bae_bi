@@ -96,7 +96,7 @@ def get_restaurant_infos(query, category):
         # 4. 최소주문금액
         infos['delivery_available_price'] = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/div[1]/div[2]/ul/li[3]/span').text
 
-        # 5. 할인 정보 - 할인 정보 없으면 '추가할인 0%'라는 텍스트가 저장됨
+        # 5. 할인 정보
         infos['promotions'] = running_driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/div[1]/div[2]/ul/li[2]/span').text
         
         # 6. 로고 이미지
