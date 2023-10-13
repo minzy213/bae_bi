@@ -3,32 +3,37 @@ from django.shortcuts import render
 from .models import Category
 # Create your views here.
 def main(request):
-    cat_list = Category.objects.all()
-    category = []
+    # cat_list = Category.objects.all()
+    # category = []
 
-    for cat in cat_list:
-        cat_dict = {
-            'id': cat.id,
-            'name': cat.name,
-            'url': cat.url,
-            'img_path': cat.img_path,
-        }
-        category.append(cat_dict)
+    # for cat in cat_list:
+    #     cat_dict = {
+    #         'id': cat.id,
+    #         'name': cat.name,
+    #         'url': cat.url,
+    #         'img_path': cat.img_path,
+    #     }
+    #     category.append(cat_dict)
         
     ## Test Code
-    # category = [
-    #     {'name':'치킨', 'url':'chicken', 'path':"https://nenechicken.com/17_new/images/menu/30005.jpg"},
-    #     {'name':'한식', 'url':'korean', 'path':"http://www.hotelrestaurant.co.kr/data/photos/20180205/art_15175330519518_43b250.bmp"},
-    # ]
+    category = [
+        {'name':'치킨', 'url':'chicken', 'path':"https://nenechicken.com/17_new/images/menu/30005.jpg"},
+        {'name':'한식', 'url':'korean', 'path':"http://www.hotelrestaurant.co.kr/data/photos/20180205/art_15175330519518_43b250.bmp"},
+    ]
     
     return render(request, 'board/main.html', {'category': category})
 
 def category(request, category_name):
-    pass
-    # cat_list = {
-    #     'name': '치킨', 'store_list' : [
-    #         {'name':'BHC 동판교점','company':'요기요' ,'coupon': '요기요 5% 할인'},
-    #         {'name':'교촌치킨 동판교점','company':'배민', 'coupon': '배민 2,000원 할인'},
-    #     ]
-    # }
-    # return render(request, 'board/category.html' , {'cat_list':cat_list})
+    # pass
+    cat_list = {
+        'name': '치킨', 'store_list' : [
+            {'name':'BHC 동판교점','company':'요기요' ,'coupon': '5% 할인'},
+            {'name':'교촌치킨 동판교점','company':'배민', 'coupon': '2,000원 할인'},
+            {'name':'a치킨','company':'배민', 'coupon': '2,000원 할인'},
+            {'name':'b치킨','company':'요기요', 'coupon': '2,000원 할인'},
+            {'name':'c치킨','company':'배민', 'coupon': '2,000원 할인'},
+            {'name':'d치킨','company':'요기요', 'coupon': '2,000원 할인'},
+            {'name':'e치킨','company':'쿠팡', 'coupon': '2,000원 할인'},
+        ]
+    }
+    return render(request, 'board/category.html' , {'cat_list':cat_list})
