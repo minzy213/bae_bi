@@ -1,5 +1,5 @@
 {% extends "./base.html" %} {% load static %}{% block main %}
-<script>
+<script> //드래그 앤 드롭 스크립트
   function dragstart_handler(ev) {
     console.log("dragStart");
     //ev.currentTarget.style.border = "dashed";
@@ -11,131 +11,154 @@
     //ev.currentTarget.style.background = "lightblue";
     ev.preventDefault();
   }
-  var test = [];
+  let cart_list = [1,2,3];
   function drop_handler(ev) {
     console.log("Drop");
     ev.preventDefault();
     var id = ev.dataTransfer.getData("text");
-    if (!test.includes(id) && ev.target.id == "dest_copy") {
+    if (!cart_list.includes(id) && ev.target.id == "dest_copy") {
       var nodeCopy = document.getElementById(id).cloneNode(true);
       nodeCopy.style.height = "70px";
       ev.target.appendChild(nodeCopy);
-      console.log(test);
+      console.log(cart_list);
       console.log(id);
-      test.push(id);
+      cart_list.push(id);
+      document.querySelector("#cart_list").textContent = cart_list;
     }
   }
   function dragend_handler(ev) {
     console.log("dragEnd");
     //ev.target.style.border = "solid black";
   }
+
 </script>
+
+<script>// 요소 생성, 제거 스크립트
+
+function switch_Display() {
+  if(document.getElementById("Display_On_Off").style.display == "none") {
+    document.getElementById("Display_On_Off").style.display = "block";
+  } else {
+    document.getElementById("Display_On_Off").style.display = "none";
+  }
+}
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).on('submit', '#post-form', function(e){
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '/update',
+      data:{
+        store_name: $('#store_name').val()
+      },
+      success: function(data){
+        const list = JSON.parse(data)
+        $('#store-detail').html(list)
+      }
+
+    })
+  })
+  
+
+</script>
+
+
+
 <div style="display: flex">
+  <!-- start -->
   <div>
-    <div style=" position: relative; z-index: 3; width: 20%; margin-right: 10px; position: fixed; margin-left: 80%; height: 600px; " class="card">
-    <strong
-        class="card-body"
-        id="dest_copy"
-        ondrop="drop_handler(event);"
-        ondragover="dragover_handler(event);">cart</strong>
-    <center><button class="btn btn-outline-success active" style="width: 70%; margin-bottom: 1pt; background-color: #005555; justify-content: center; ">비교</button></center>
-    </div>
-    <div
-      class="card"
-      style="
-        position: absolute;
-        z-index: 2;
-        margin: 3px;
-        width: 78.5%;
-      "
-    >
-      <p class="card-title">디테일 영역</p>
-      <div class="site-mobile-menu site-navbar-target">
-        <div class="site-mobile-menu-header">
-          <div class="site-mobile-menu-close">
-            <span class="icofont-close js-menu-toggle"></span>
+    <div class="z-0 position-absolute card" style="width: 80%;">
+
+      <div class="container">
+        <div class="row justify-content-between">
+          <div style="margin-top: 5px;">
+            <ul class="list-group" style="row-gap: 3px; margin: 3px">
+              {% for store in cat_list.store_list %}
+                <li style="height: 100pt;" class="list-group-item">
+                  <form action="" id="post-form">
+                    {% csrf_token %}
+                    <button id="store_name" style="text-align: left;" type="submit" onclick="switch_Display();" name="store_name"><strong>{{store.name}}</strong></button>
+                    <p style="text-align: left;">{{store.distance}} | {{store.review}}점</p>
+                  </form>
+                </li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
-        <div class="site-mobile-menu-body"></div>
       </div>
-      
-      <!-- 백그라운드 이미지 수정, 추가해야함 -->
     
-    
-      <div class="section">
-        <div class="container">
-          <div class="row justify-content-between">
-            <div>
-              <ul class="list-group" style="row-gap: 3px; margin: 3px">
-                {% for store in cat_list.store_list %}
-                <li
-                  style="height: 100pt"
-                  class="list-group-item"
-                  draggable="true"
-                  id="{{store.name}}"
-                  ondragstart="dragstart_handler(event);"
-                  ondragend="dragend_handler(event);"
-                >
-                  <p><strong>{{store.name}}</strong> | {{store.company}}</p>
-                  <p>{{store.coupon}}</p>
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-    
-          <div class="card-body mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">댓글 작성하기</label>
-            <input class="form-control" id="exampleFormControlTextarea1" rows="3"></input>
-            <button class="btn btn-success" type="submit" style="float: right;">작성</button>
-          </div>
+    </div>
+
+    <div class="z-1 position-absolute card" id="Display_On_Off" style="display: none; width: 80%;">
+      <button type="button" aria-label="Close" class="btn btn-close" onclick="switch_Display()" style="float: right;"></button>
+      <div class="container">
+      <!-- store list element start -->
+        <div id="store-detail">
           <ul>
-            <!-- 댓글 아이템 시작 -->
-            <li class="card-body" >
-              <div>
-                댓글 내용 테스트
-              </div>
-              <div id="list1" class="carousel slide" style="width: 200pt;">
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#list1" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#list1" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#list1" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                  <img src="https://nenechicken.com/17_new/images/menu/30005.jpg" alt="Image" class="img-fluid">
-                  </div>
-                  <div class="carousel-item">
-                  <img src="https://wimg.mk.co.kr/meet/neds/2022/10/image_readtop_2022_875926_16648812615186110.jpg" alt="Image" class="img-fluid">
-                  </div>
-                  <div class="carousel-item">
-                  <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2022/11/04/116313417.1.edit.jpg" alt="Image" class="img-fluid">
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#list1" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#list1" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-                </div>
-            </li>
-            <!-- 댓글 아이템 끝 -->
+            {% for menu in data %}
+              <li>{{menu.name}}</li>
+            {% endfor %}
           </ul>
         </div>
+      <!-- store list element end -->
       </div>
-</div>
-  <div style="position: relative; z-index: 1; width: 80%">
-    <ol class="list-group" style="row-gap: 3px; margin: 3px">
-      {% for store in cat_list.store_list %}
-      <li style="height: 100pt" class="list-group-item">
-        <p><strong>{{store.name}}</strong> | {{store.company}}</p>
-        <p>{{store.coupon}}</p>
-      </li>
-      {% endfor %}
-    </ol>
+    </div>
   </div>
+  <!-- end -->
+
+  <!-- cart start -->
+  <div style="width: 20%; margin-right: 10px; position: fixed; margin-left: 80%; height: 600px;" class="card">
+    <strong class="card-body" id="dest_copy" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">cart</strong>
+      <center>
+          <button
+              class="btn btn-outline-success active"
+              style="
+              width: 70%;
+              margin-bottom: 1pt;
+              background-color: #005555;
+              justify-content: center;
+              ">비교
+          </button>
+      </center>
+  </div>
+
+  <!-- cart end -->
+
+
 </div>
 {% endblock main %}
