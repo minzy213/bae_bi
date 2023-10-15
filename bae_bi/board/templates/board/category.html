@@ -1,4 +1,47 @@
 {% extends "./base.html" %} {% load static %}{% block main %}
+
+<style>
+
+  .tab .tabitems {
+    width: 100%;
+    position: relative;
+  }
+
+  .tab .tabitems .item {
+    display: inline-block;
+    width: 49%;
+  }
+
+  .tab .tabitems li a {
+    display: block;
+    margin-right: 0;
+    color: #333;
+    font-size: 15px;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .tab .tabitems li a.active,
+  .tab .tabitems li a:hover {
+    color: #005555;
+  }
+
+  .tab .tabitems .item:last-child .tablink.active:after {
+  content: "";
+  width: 48%;
+  height: 1px;
+  background-color: #E2E2E1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  }
+
+
+</style>
+
 <script> //드래그 앤 드롭 스크립트
   function dragstart_handler(ev) {
     console.log("dragStart");
@@ -121,7 +164,6 @@ function switch_Display() {
 
     })
   })
-  
 
 </script>
 
@@ -156,10 +198,44 @@ function switch_Display() {
       <button type="button" aria-label="Close" class="btn btn-close" onclick="switch_Display()" style="float: right;"></button>
       <div class="container">
       <!-- store list element start -->
-        <div id="store-detail">
-
+        <div class="tab">
+          <ul class="tabitems">
+            <li class="item" style="display: inline-block; width: 10%;">
+              <a class="tablink active" href="#" onclick="openTab(event, 'tabA')">가게 메뉴</a>
+            </li>
+            <li class="item" style="display: inline-block; width: 10%;">
+              <a class="tablink" href="#" onclick="openTab(event, 'tabB')">리뷰 보기</a>
+            </li>
+          </ul>
+        </div>
+      
+      <!--tabA start-->                                 
+          <div id="tabA" class="tabcontent" style="display: block;">
+            <p>가게 메뉴<br> 가게 메뉴들이 표기 되는 부분 </p>
+            <div id="store-detail"></div>
+          </div>
+          <!--tabA end-->
+          <!--tabB start-->  
+          <div id="tabB" class="tabcontent" style="display: none;">
+            <p>리뷰<br> 리뷰 리스트가 표기되는 부분, 작성도 가능하다. </p>
+          </div>
         </div>
       <!-- store list element end -->
+      <script>
+        function openTab(evt, tabName) {
+          var i, tabcontent, tablink;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablink = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablink.length; i++) {
+            tablink[i].className = tablink[i].className.replace(" active", "");
+          }
+          document.getElementById(tabName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+      </script>
       </div>
     </div>
   </div>
