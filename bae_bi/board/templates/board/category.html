@@ -16,16 +16,39 @@
     console.log("Drop");
     ev.preventDefault();
     var id = ev.dataTransfer.getData("text");
-    if (!cart_list.includes(id) && ev.target.id == "dest_copy") {
+    if (!cart_list.includes("_" + id) && ev.target.id == "dest_copy") {
       var nodeCopy = document.getElementById(id).cloneNode(true);
       nodeCopy.style.height = "70px";
+      const button = document.createElement("button");
+      button.className = "btn btn-close";
+      button.onclick = () => {
+        remove_cart("_" + id,ev)
+      };
+      button.ariaLabel="Close";
+      button.type = "button";
+      nodeCopy.appendChild(button)
+      nodeCopy.id = "_" + id
       ev.target.appendChild(nodeCopy);
-      console.log(cart_list);
-      console.log(id);
-      cart_list.push(id);
-      document.querySelector("#cart_list").textContent = cart_list;
+      cart_list.push("_" + id);
     }
   }
+
+  function remove_element(ev){
+    console.log('del');
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+  function remove_cart(id,ev) {
+    if (cart_list.includes(id) && ev.target.id == "dest_copy") {
+      const child = document.getElementById(id);
+      ev.target.removeChild(child);
+      var idx = cart_list.indexOf(id)
+      cart_list.splice(idx,1);
+    }
+  }
+
+
+  
   function dragend_handler(ev) {
     console.log("dragEnd");
     //ev.target.style.border = "solid black";
@@ -89,8 +112,9 @@ function switch_Display() {
       success: function(data){
         const menu = JSON.parse(data)
         let menu_html = []
-        for(const me in menu){
-          menu_html.push("<li>"+ me.name +"</li>")
+        for(const me of menu){
+          menu_html.push('<li style="height: 100pt" class="list-group-item" draggable="true" id="'+ me.name +'" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);"><p><strong>' + me.name+ '</strong> | ' + me.name + '</p><p>' + me.name + '</p></li>')
+          console.log(me.name);
         }
         $('#store-detail').html(menu_html)
       }
@@ -132,7 +156,9 @@ function switch_Display() {
       <button type="button" aria-label="Close" class="btn btn-close" onclick="switch_Display()" style="float: right;"></button>
       <div class="container">
       <!-- store list element start -->
-        <div id="store-detail"></div>
+        <div id="store-detail">
+
+        </div>
       <!-- store list element end -->
       </div>
     </div>
