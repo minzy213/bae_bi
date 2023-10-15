@@ -11,7 +11,7 @@
     //ev.currentTarget.style.background = "lightblue";
     ev.preventDefault();
   }
-  let cart_list = [1,2,3];
+  let cart_list = [];
   function drop_handler(ev) {
     console.log("Drop");
     ev.preventDefault();
@@ -87,8 +87,12 @@ function switch_Display() {
         store_name: $('#store_name').val()
       },
       success: function(data){
-        const list = JSON.parse(data)
-        $('#store-detail').html(list)
+        const menu = JSON.parse(data)
+        let menu_html = []
+        for(const me in menu){
+          menu_html.push("<li>"+ me.name +"</li>")
+        }
+        $('#store-detail').html(menu_html)
       }
 
     })
@@ -128,13 +132,7 @@ function switch_Display() {
       <button type="button" aria-label="Close" class="btn btn-close" onclick="switch_Display()" style="float: right;"></button>
       <div class="container">
       <!-- store list element start -->
-        <div id="store-detail">
-          <ul>
-            {% for menu in data %}
-              <li>{{menu.name}}</li>
-            {% endfor %}
-          </ul>
-        </div>
+        <div id="store-detail"></div>
       <!-- store list element end -->
       </div>
     </div>

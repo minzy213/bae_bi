@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Category
+import json
 # Create your views here.
 def main(request):
     # cat_list = Category.objects.all()
@@ -63,7 +64,7 @@ def update(request):
             {'company':'쿠팡이츠', 'coupon': '5% 할인'},]},
         ]
 
-        return HttpResponse(menu)
+        return HttpResponse(json.dumps(menu))
 
     return HttpResponse({"error": "invalid request"})
 
