@@ -38,7 +38,7 @@ class Menu(models.Model):
     )
     name = models.CharField(max_length=255)
     price = models.IntegerField()
-    info = models.CharField(max_length=255, null=True)
+    info = models.CharField(max_length=300, null=True)
     thumbnail_path = models.TextField(null=True, default='')
     is_soldout = models.BooleanField(default = False)
     
@@ -60,11 +60,11 @@ class Review(models.Model):
     store = models.ForeignKey(  # 해당 점포 삭제 시 댓글도 함께 삭제
         Store, on_delete=models.CASCADE, related_name="rv_store_set"
     )
-    content = models.CharField(max_length=255)
+    content = models.CharField(max_length=500)
     user = models.ForeignKey(  # 해당 유저 삭제 시 id null로 둔다
         User, null=True, on_delete=models.SET_NULL, related_name="user_set"
     )
     rate = models.CharField(max_length=255)
     image_path = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    menu = models.CharField(max_length=255, null=True)
+    menu = models.TextField(null=True)
