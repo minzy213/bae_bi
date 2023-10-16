@@ -35,8 +35,20 @@
       rel="stylesheet"
       href="{% static 'bootstrap/css/style.css' %}?after"
     />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
+    
     <title>{% block pagename %}{% endblock pagename %}</title>
+    <style>
+      *{
+        font-family: 'IBM Plex Sans KR', sans-serif;
+      }
+
+      .font{
+        font-family: 'Black Han Sans', sans-serif;
+      }
+    </style>
   </head>
   <body>
     <nav class="site-nav">
