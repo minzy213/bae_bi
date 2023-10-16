@@ -55,24 +55,34 @@
     ev.preventDefault();
   }
   let cart_list = [];
+
+  function check_cart(){
+    if (cart_list.length !== 0) {
+      document.getElementById('drag-helper').style.display='none';
+    } else{
+      document.getElementById('drag-helper').style.display='block';
+      
+    }
+  }
   function drop_handler(ev) {
     console.log("Drop");
     ev.preventDefault();
     var id = ev.dataTransfer.getData("text");
     if (!cart_list.includes("_" + id) && ev.target.id == "dest_copy") {
       var nodeCopy = document.getElementById(id).cloneNode(true);
-      nodeCopy.style.height = "70px";
-      const button = document.createElement("button");
-      button.className = "btn btn-close";
+      nodeCopy.style.height = "140px";
+      var item = nodeCopy.querySelector(".menu-item");
+      item.style.width = "80%";
+      var button = nodeCopy.querySelector(".btn");
       button.onclick = () => {
         remove_cart("_" + id,ev)
       };
-      button.ariaLabel="Close";
-      button.type = "button";
-      nodeCopy.appendChild(button)
-      nodeCopy.id = "_" + id
+      button.style.display = "block";
       ev.target.appendChild(nodeCopy);
+      nodeCopy.id = "_" + id
       cart_list.push("_" + id);
+      check_cart()
+
     }
   }
 
@@ -87,6 +97,7 @@
       ev.target.removeChild(child);
       var idx = cart_list.indexOf(id)
       cart_list.splice(idx,1);
+      check_cart()
     }
   }
 
@@ -103,6 +114,7 @@
 
 function switch_Display() {
   if(document.getElementById("Display_On_Off").style.display == "none") {
+    window.scrollTo({top:0, behavior:"smooth"});
     document.getElementById("Display_On_Off").style.display = "block";
   } else {
     document.getElementById("Display_On_Off").style.display = "none";
@@ -150,16 +162,26 @@ function switch_Display() {
       type: 'POST',
       url: '/update',
       data:{
-        store_name: $('#store_name').val()
+        store_name: $('#store_name').val(),
       },
       success: function(data){
         const menu = JSON.parse(data)
-        let menu_html = []
-        for(const me of menu){
-          menu_html.push('<li style="height: 100pt" class="list-group-item" draggable="true" id="'+ me.name +'" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);"><p><strong>' + me.name+ '</strong> | ' + me.name + '</p><p>' + me.name + '</p></li>')
-          console.log(me.name);
+        let menu_html = ''
+        for(const me of menu.menus){
+          menu_html = menu_html + ('<li style="height: 100pt; margin-bottom: 15px;" class="list-group-item" draggable="true" id="'+ me.name +'" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);">\
+                            <button type="button" aria-label="Close" class="btn btn-close" style="float: right; display:none"></button>\
+                            <div class="menu-item">\
+                              <p><strong>' + me.name+ '</strong></p>\
+                              <p>|')
+          for(const item of me.coupon){
+            menu_html = menu_html + (item.company + ": "+ item.coupon + ' | ')
+          }
+          menu_html = menu_html + ('</p></div></li>')
         }
         $('#store-detail').html(menu_html)
+        $('#crt-store-name').html(menu.store)
+        $('#crt-store-info').html(menu.dil_time)
+
       }
 
     })
@@ -169,21 +191,21 @@ function switch_Display() {
 
 
 
-<div style="display: flex">
+<div style="display: flex; margin-left: 90px; margin-right: 90px">
   <!-- start -->
   <div>
-    <div class="z-0 position-absolute card" style="width: 80%;">
+    <div class="border border-end-0 z-0 position-absolute card" style="width: 80%;">
 
       <div class="container">
         <div class="row justify-content-between">
-          <div style="margin-top: 5px;">
-            <ul class="list-group" style="row-gap: 3px; margin: 3px">
+          <div style="margin-top: 5px; padding-left: 0;">
+            <ul class="list-group" style="row-gap: 3px; margin: 3px float: left;">
               {% for store in cat_list.store_list %}
                 <li style="height: 100pt;" class="list-group-item">
                   <form action="" id="post-form">
                     {% csrf_token %}
                     <button id="store_name" style="text-align: left;" type="submit" onclick="switch_Display();" name="store_name"><strong>{{store.name}}</strong></button>
-                    <p style="text-align: left;">{{store.distance}} | {{store.review}}점</p>
+                    <p style="text-align: left;">{{store.adrs}} | {{store.sale}}</p>
                   </form>
                 </li>
               {% endfor %}
@@ -199,7 +221,7 @@ function switch_Display() {
       <div class="container">
       <!-- store list element start -->
         <div class="tab">
-          <ul class="tabitems">
+          <ul class="tabitems" style="width: 80%;">
             <li class="item" style="display: inline-block; width: 10%;">
               <a class="tablink active" href="#" onclick="openTab(event, 'tabA')">가게 메뉴</a>
             </li>
@@ -211,13 +233,38 @@ function switch_Display() {
       
       <!--tabA start-->                                 
           <div id="tabA" class="tabcontent" style="display: block;">
-            <p>가게 메뉴<br> 가게 메뉴들이 표기 되는 부분 </p>
+            <p id="crt-store-name" class="border-bottom border-5" style="font-size: 60px"></p>
+            <p id="crt-store-info"></p>
             <div id="store-detail"></div>
           </div>
           <!--tabA end-->
-          <!--tabB start-->  
+          <!--tabB start--> 
           <div id="tabB" class="tabcontent" style="display: none;">
-            <p>리뷰<br> 리뷰 리스트가 표기되는 부분, 작성도 가능하다. </p>
+            <div class="card-body mb-3 border-bottom border-5" style="height: 180px;">
+              <label for="exampleFormControlTextarea1" class="form-label">댓글 작성하기</label>
+              <input class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-bottom: 6px;"></input>
+              <button class="btn btn-success" type="submit" style="float: right;">작성</button>
+            </div>
+            <ul class="list-group" style="row-gap: 3px; margin: 3px">
+              <li>
+                <div>
+                  <p>댓글 내용 가짜로 지어내는중</p>
+                  <img class="border rounded border-3" src="https://pelicana.co.kr/resources/images/menu/original_menu10_210705.png" alt="img" style="width: 180px; height:100px; float: right;">
+                </div>
+              </li>
+              <li>
+                <div>
+                  <p>댓글 내용 가짜로 지어내는중</p>
+                  <img class="border rounded border-3" src="https://pelicana.co.kr/resources/images/menu/original_menu10_210705.png" alt="img" style="width: 180px; height:100px; float: right;">
+                </div>
+              </li>
+              <li>
+                <div>
+                  <p>댓글 내용 가짜로 지어내는중</p>
+                  <img class="border rounded border-3" src="https://pelicana.co.kr/resources/images/menu/original_menu10_210705.png" alt="img" style="width: 180px; height:100px; float: right;">
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       <!-- store list element end -->
@@ -242,14 +289,18 @@ function switch_Display() {
   <!-- end -->
 
   <!-- cart start -->
-  <div style="width: 20%; margin-right: 10px; position: fixed; margin-left: 80%; height: 600px;" class="card">
-    <strong class="card-body" id="dest_copy" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">cart</strong>
+  <div style="width: 15%; margin-right: 10px; position: fixed; margin-left: 83.8%; height: 700px;" class="card">
+    <strong class="card-body" id="dest_copy" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">cart
+      <div id="drag-helper">
+        여기에 메뉴를 드래그하세요.
+      </div>
+      </strong>
       <center>
           <button
               class="btn btn-outline-success active"
               style="
               width: 70%;
-              margin-bottom: 1pt;
+              margin-bottom: 5pt;
               background-color: #005555;
               justify-content: center;
               ">비교

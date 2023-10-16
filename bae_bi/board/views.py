@@ -32,13 +32,13 @@ def category(request, category_name):
 
     cat_list = {
         'name': '치킨', 'store_list' : [
-            {'name':'BHC 동판교점', 'distance':'2.3km', 'review':'4.5'},
-            {'name':'교촌치킨 동판교점', 'distance':'2.3km', 'review':'5.0'},
-            {'name':'a치킨', 'distance':'2.7km', 'review':'3.5'},
-            {'name':'b치킨', 'distance':'3.3km', 'review':'2.5'},
-            {'name':'c치킨', 'distance':'6.3km', 'review':'3.4'},
-            {'name':'d치킨', 'distance':'2.3km', 'review':'4.7'},
-            {'name':'e치킨', 'distance':'1.3km', 'review':'4.2'},
+            {'name':'BHC 동판교점', 'adrs':'서울특별시 ~~', 'sale':'~~~~~'},
+            {'name':'교촌치킨 동판교점', 'adrs':'서울특별시 ~~', 'sale':'dfsdfsdf'},
+            {'name':'a치킨', 'adrs':'서울특별시 ~~', 'sale':'gsdfbsdcv'},
+            {'name':'b치킨', 'adrs':'서울특별시 ~~', 'sale':'sdfasdfvxc'},
+            {'name':'c치킨', 'adrs':'서울특별시 ~~', 'sale':'asdfvvc'},
+            {'name':'d치킨', 'adrs':'서울특별시 ~~', 'sale':'dsafvacv'},
+            {'name':'e치킨', 'adrs':'서울특별시 ~~', 'sale':'asdfvvbsfhg'},
         ]
     }
     return render(request, 'board/category.html' , {'cat_list':cat_list})
@@ -46,13 +46,16 @@ def category(request, category_name):
 def update(request):
     # bhc를 눌렀다는 가정하에...
     if request.method == "POST":
-        menu = [
-        {'name':'뿌링클', 
-         'coupon':[
+        menu = {
+            'store' : 'BHC', 
+            'dil_time':'배민: 40분 | 요기요: 50분',
+        'menus':
+            [{'name':'뿌링클', 
+            'coupon':[
             {'company':'요기요', 'coupon': '5% 할인'},
             {'company':'배달의 민족', 'coupon': '5% 할인'},
             {'company':'쿠팡이츠', 'coupon': '5% 할인'},]},
-        {'name':'치킨 1', 
+            {'name':'치킨 1', 
          'coupon':[
             {'company':'요기요', 'coupon': '5% 할인'},
             {'company':'배달의 민족', 'coupon': '5% 할인'},
@@ -61,10 +64,15 @@ def update(request):
          'coupon':[
             {'company':'요기요', 'coupon': '5% 할인'},
             {'company':'배달의 민족', 'coupon': '5% 할인'},
-            {'company':'쿠팡이츠', 'coupon': '5% 할인'},]},
-        ]
-
+            {'company':'쿠팡이츠', 'coupon': '5% 할인'},]}]
+        }   
         return HttpResponse(json.dumps(menu))
 
     return HttpResponse({"error": "invalid request"})
 
+def review_update(request):
+    if request.method == "POST":
+        menu = ''
+        return HttpResponse(json.dumps(menu))
+
+    return HttpResponse({"error": "invalid request"})
