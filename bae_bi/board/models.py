@@ -25,11 +25,12 @@ class Delivery_info(models.Model):
         Store, on_delete=models.CASCADE, related_name="dlv_store_set"
     )
     service = models.CharField(max_length=255)
+    available = models.IntegerField(default=0) # 얼마 이상 주문 시 배달 가능
     time = models.CharField(max_length=255)
     fee = models.CharField(max_length=255)
+    fee_list = models.CharField(max_length=255)
     prom = models.CharField(max_length=255)
     prom_cond = models.CharField(max_length=255)
-    add_dc = models.CharField(max_length=255)
 
 class Menu(models.Model):
     id = models.AutoField(primary_key=True)
@@ -64,6 +65,7 @@ class Review(models.Model):
     user = models.ForeignKey(  # 해당 유저 삭제 시 id null로 둔다
         User, null=True, on_delete=models.SET_NULL, related_name="user_set"
     )
+    service = models.CharField(max_length=255, null=True, default='')
     rate = models.CharField(max_length=255)
     image_path = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

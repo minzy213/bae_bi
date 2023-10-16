@@ -35,6 +35,7 @@ categories.append(Category(name="피자", url = "pizza"))
 Category.objects.bulk_create(categories)
 
 
+
 def saveDB(filename, name):
     promotions = []
     reviews = []
@@ -43,16 +44,20 @@ def saveDB(filename, name):
         info = json.load(f)
 
     t_ct = Category.objects.filter(name=name)[0]
+    svc = ['요기요', '배민', '쿠팡이츠']
+    idx = 0
     for rest in info['restaurants']:
         # store 추가
         t_store = Store.objects.create(name=rest['name'], address='', avg_rate=rest['avg_rate'], category=t_ct, 
                             thumbnail_path=rest['logo'])
         
         # 요기요 배달정보 추가
+        promo = rest['restaurant_promotions']['promotion_on_condition']
+        if len(rest['restaurant_promotions']['additional_dc']) > 0:
+            promo = rest['restaurant_promotions']['additional_dc']
         delivery_infos.append(Delivery_info(store=t_store, service='요기요', time=rest['delivery_time'], 
-                                            fee=rest['delivery_tip'], prom=rest['restaurant_promotions']['promotion_on_condition'], 
-                                            prom_cond=rest['restaurant_promotions']['on_condition'], 
-                                            add_dc=rest['restaurant_promotions']['additional_dc']))        
+                                            fee=rest['delivery_tip'], prom=promo, available = rest['delivery_available_price'], 
+                                            prom_cond=rest['restaurant_promotions']['on_condition']))        
         
         # menu 추가
         for name in rest['menu'].keys():
@@ -60,7 +65,8 @@ def saveDB(filename, name):
                             info=rest['menu'][name]['description'], thumbnail_path=rest['menu'][name]['image'], 
                             is_soldout=rest['menu'][name]['out_of_stock'])
             # 메뉴 할인정보 추가
-            promotions.append(Promotion(menu=t_menu, service='요기요', discount=rest['menu'][name]['price_dc']))
+            if rest['menu'][name]['price_dc'] > 0:
+                promotions.append(Promotion(menu=t_menu, service='요기요', discount=rest['menu'][name]['price_dc']))
             
         for review in rest['reviews_info']:
             us_name = review['review_id'][:2]
@@ -75,9 +81,10 @@ def saveDB(filename, name):
             # 리뷰 추가
             rv_img = ''
             for img in review['img']:
-                rv_img = rv_img + img + '|'
+                rv_img = rv_img + '|' + img
             reviews.append(Review(store=t_store, content=review['review'], user=t_user, rate = review['rate'],
-                                image_path = rv_img, created_at = review['uploaded'], menu = review['order']))
+                                image_path = rv_img, created_at = review['uploaded'], menu = review['order'], service = svc[idx]))
+            idx %= 3
             
     Promotion.objects.bulk_create(promotions)
     Review.objects.bulk_create(reviews)
@@ -89,3 +96,35 @@ saveDB('japanese', '일식')
 saveDB('jokbal', '족발')
 saveDB('korean', '한식')
 saveDB('pizza', '피자')
+
+# 배민, 쿠팡이츠 저장
+def saveOthers(filepath):
+    with open(f'../data/{filepath}.json', 'r', encoding='UTF8') as f:
+        info = json.load(f)
+    
+    delivery_infos = []
+
+    for res in info['restaurants']:
+        store = Store.objects.filter(name=res['name'])
+        if len(store) == 0:
+            print(f'there is no store named {res["name"]}')
+            continue
+        
+        store = store[0]
+        for serv in res['service']:
+            fee_list = ''
+            for fee in serv['delivery_tip_list']:
+                fee_list += fee['condition'] + ': ' + str(fee['delivery_tip_on_condition']) + '|'
+            prom_list = ''
+            prom_cond = ''
+            for prom in serv['promotions']:
+                prom_list += str(prom['dc']) + '|'
+                prom_cond += prom['on_condition'] + '|'
+            prom_list += serv['additional_dc']
+            delivery_infos.append(Delivery_info(store=store, service=serv['name'], time=serv['delivery_time'], 
+                                        fee=serv['delivery_tip'], fee_list = fee_list, prom=prom_list, 
+                                        prom_cond=prom_cond, available = serv['delivery_available_price']))     
+
+    Delivery_info.objects.bulk_create(delivery_infos)
+
+saveOthers('chicken_baemin_coupang')
