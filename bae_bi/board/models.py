@@ -12,7 +12,6 @@ class Store(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    min_delivery = models.IntegerField(default=0)
     avg_rate = models.FloatField(default=0)
     category = models.ForeignKey(  # 해당 카테고리 점포가 있으면 삭제되지 않음
         Category, on_delete=models.PROTECT, related_name="category_set"
@@ -28,7 +27,9 @@ class Delivery_info(models.Model):
     service = models.CharField(max_length=255)
     time = models.CharField(max_length=255)
     fee = models.CharField(max_length=255)
-    coupon = models.CharField(max_length=255)
+    prom = models.CharField(max_length=255)
+    prom_cond = models.CharField(max_length=255)
+    add_dc = models.CharField(max_length=255)
 
 class Menu(models.Model):
     id = models.AutoField(primary_key=True)
@@ -52,7 +53,6 @@ class Promotion(models.Model):
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
 
 
 class Review(models.Model):
