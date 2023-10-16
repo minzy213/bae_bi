@@ -44,7 +44,6 @@ def saveDB(filename, name):
         info = json.load(f)
 
     t_ct = Category.objects.filter(name=name)[0]
-    svc = ['요기요', '배민', '쿠팡이츠']
     idx = 0
     for rest in info['restaurants']:
         # store 추가
@@ -83,8 +82,8 @@ def saveDB(filename, name):
             for img in review['img']:
                 rv_img = rv_img + '|' + img
             reviews.append(Review(store=t_store, content=review['review'], user=t_user, rate = review['rate'],
-                                image_path = rv_img, created_at = review['uploaded'], menu = review['order'], service = svc[idx]))
-            idx %= 3
+                                image_path = rv_img, created_at = review['uploaded'], menu = review['order'], service = str(idx)))
+            idx = (idx + 1) % 3
             
     Promotion.objects.bulk_create(promotions)
     Review.objects.bulk_create(reviews)
