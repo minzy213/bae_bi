@@ -1,14 +1,4 @@
-<script type="text/javascript">
-  a = null;
-  $(document).on("submit", "#compare_cart", function (e) {
-    e.preventDefault();
-
-    $.ajax({
-      type: "POST",
-      url: "/comp_cart",
-      data: {
-        cart_list: cart_list,
-      },
-    });
-  });
-</script>
+nodeCopy.style.height = "140px"; nodeCopy.style.width = "250px"; var item =
+nodeCopy.querySelector(".menu-item"); item.style.width = "80%"; var button =
+nodeCopy.querySelector(".btn"); button.onclick = () => { remove_cart("_" +
+id,ev) }; button.style.display = "block"; ev.target.appendChild(nodeCopy);
