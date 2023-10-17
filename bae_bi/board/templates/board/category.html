@@ -336,9 +336,11 @@ function switch_Display() {
           review_list += '<li class="card">\
                   <div class="card-body" style="display: flex;">\
                     <img class="border rounded border-0" src="'+ platform_img +'" alt="img" style="width: 30px; height:30px; float: left;">\
-                    <p style="width: 75%;"><strong>'  + review.author + ' | ' + review.created_at + '</strong><br style="color: rgba(0,0,0,0.3);">' + review.menu + '</p>\
-                    <img class="border rounded border-1" src="'+ review.path +'" alt="img" style="width: 110px; height:110px; float: right;">\
-                    </div>\
+                    <p style="width: 75%;"><strong>'  + review.author + ' | ' + review.created_at + '</strong><br style="color: rgba(0,0,0,0.3);">' + review.menu + '</p>'
+                    if (review.path.length > 0){
+                      review_list +='<img class="border rounded border-1" src="'+ review.path +'" alt="img" style="width: 110px; height:110px; float: right;">';
+                    }
+                    review_list +='</div>\
                     <p style="margin-left: 30px; position: relative; top: -30px;">' + review.content + '</p>\
                     </li>'
                   }
@@ -360,7 +362,7 @@ function switch_Display() {
       <div class="container">
         <div class="row justify-content-between">
           <div style="margin-top: 5px; padding-left: 0;">
-            <div class="background font">chicken<br>ㅊㅣㅋㅣㄴ</div>
+            <div class="background font">{{cat_list.eng_name}}<br>{{cat_list.name}}</div>
             <h1 class="font">가게 리스트</h1>
             <ul class="list-group" style="width: 100%; row-gap: 3px; margin: 3px; float: left;">
               {% for store in cat_list.store_list %}
@@ -368,7 +370,8 @@ function switch_Display() {
                   <form action="" id="post-form">
                     {% csrf_token %}
                     <button id="store_name" style="text-align: left;" type="submit" onclick="switch_Display();" name="store_name"><strong>{{store.name}}</strong></button>
-                    <p style="text-align: left;">{{store.adrs}} | {{store.sale}}</p>
+                    <p style="text-align: left;">{{store.adrs}}</p>
+                    <p style="text-align: left;">{{store.sale}}</p>
                   </form>
                 </li>
               {% endfor %}
@@ -403,11 +406,18 @@ function switch_Display() {
           <!--tabA end-->
           <!--tabB start--> 
           <div id="tabB" class="tabcontent" style="display: none;">
-            <div class="card-body mb-3 border-bottom border-5" style="height: 180px;">
-              <label for="exampleFormControlTextarea1" class="form-label">댓글 작성하기</label>
-              <input class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-bottom: 6px;"></input>
-              <button class="btn btn-success" type="submit" style="float: right;">작성</button>
-            </div>
+            <label for="exampleFormControlTextarea1" class="form-label">댓글 작성하기</label>
+            <form action="comment" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                  <textarea class="form-control" name="comment" id="comment-input" rows="3"></textarea>
+                  <button type="submit" class="btn btn-outline-success">
+                      작성
+                  </button>
+                  <p type="hidden" name = {{menu.name}}></p>
+              </div>
+            </form>
+
             <ul id="review-list" class="list-group" style="row-gap: 3px; margin: 3px"></ul>
           </div>
         </div>
