@@ -12,13 +12,14 @@ def main(request):
             'id': cat.id,
             'name': cat.name,
             'url': cat.url,
-            'img_path': cat.img_path,
+            'img_path': f'/static/images/{cat.url}.png',
         }
         category.append(cat_dict)
 
     
     return render(request, 'board/main.html', {'category': category})
 
+from jamo import h2j, j2hcj
 def category(request, category_name):
     if category_name == 'comp_cart':
         return comp_cart(request)
@@ -48,12 +49,10 @@ def category(request, category_name):
     return render(request, 'board/category.html', {'cat_list': cat_dict})
     
 def update(request):
-    print("update")
-    # bhc를 눌렀다는 가정하에...
+    print('update')
     if request.method == "POST":
         detail = {'service':['배민', '요기요', '쿠팡이츠'], 'time':['']*3, 'fee':['']*3, 
                 'coupon':['']*3, 'menu_list':[], 'review_list':[]}
-        print(request.POST.get('store_name'))
         detail['name'] = request.POST.get('store_name')
         st_list = Store.objects.filter(name = detail['name'])
         
@@ -91,8 +90,6 @@ def update(request):
                     img_path = review.image_path.split('|')[0]
                 else:
                     img_path = review.image_path
-                print(review.image_path)
-                print(img_path)
                 detail['review_list'].append({ 'platform':int(review.service) , 'author':User.objects.filter(pk=review.user_id)[0].name + '** 님', 'content':review.content, 
                                               'rate':review.rate, 'path':img_path, 'created_at':review.created_at, 'menu':review.menu})
 
@@ -103,6 +100,12 @@ def update(request):
 
 def comp_cart(request):
     return render(request,'board/compare.html')
+
+def comment(request):
+    print(request.POST)
+    
+    return main(request)
+
 
 
 def review_update(request):
