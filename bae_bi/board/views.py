@@ -25,6 +25,8 @@ def main(request):
     return render(request, 'board/main.html', {'category': category})
 
 def category(request, category_name):
+    if category_name == 'comp_cart':
+        return comp_cart(request)
     cat_list = {
         'name': '치킨', 'store_list' : [
             {'name':'BHC aaa', 'adrs':'서울특별시 ~~', 'sale':'~~~~~'},
