@@ -1,0 +1,15 @@
+
+<div class="container">
+    <div class="row justify-content-between">
+        <div>
+            <ul class="list-group" style="row-gap: 3px; margin: 3px">
+            {% for store in cat_list.store_list %}
+                <li style="height: 100pt" class="list-group-item" draggable="true" id="{{store.name}}" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);">
+                    <p><strong>{{store.name}}</strong> | {{store.company}}</p>
+                    <p>{{store.coupon}}</p>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

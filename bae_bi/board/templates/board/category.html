@@ -1,5 +1,69 @@
 {% extends "./base.html" %} {% load static %}{% block main %}
-<script>
+
+<style>
+
+  .tab .tabitems {
+    width: 100%;
+    position: relative;
+  }
+
+  .tab .tabitems .item {
+    display: inline-block;
+    width: 49%;
+  }
+
+  .tab .tabitems li a {
+    display: block;
+    margin-right: 0;
+    color: #333;
+    font-size: 15px;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .tab .tabitems li a.active,
+  .tab .tabitems li a:hover {
+    color: #005555;
+  }
+
+  .tab .tabitems .item:last-child .tablink.active:after {
+  content: "";
+  width: 48%;
+  height: 1px;
+  background-color: #E2E2E1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  }
+  
+  .ellipsis {
+  overflow: scroll;
+  text-overflow: ellipsis;
+  overflow: auto;
+  overflow-y: hidden
+  white-space:nowrap;
+  }
+  .background{
+      width: 100%;
+      height: 60%;
+      background-image: url("https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg.flaticon.com%2Ficons%2Fpng%2F512%2F701%2F701984.png%3Fsize%3D1200x630f%26pad%3D10%2C10%2C10%2C10%26ext%3Dpng%26bg%3DFFFFFFFF&type=sc960_832");
+      font-size: 90px;
+      color: #338888;
+      line-height: 80px;
+      background-size: cover;
+  }
+  #store_name{
+    background: none;
+    border: none;
+
+  }
+
+</style>
+
+<script> //드래그 앤 드롭 스크립트
   function dragstart_handler(ev) {
     console.log("dragStart");
     //ev.currentTarget.style.border = "dashed";
@@ -11,70 +75,302 @@
     //ev.currentTarget.style.background = "lightblue";
     ev.preventDefault();
   }
-  var test = [];
+  let cart_list = [];
+
+  function check_cart(){
+    if (cart_list.length !== 0) {
+      document.getElementById('drag-helper').style.display='none';
+    } else{
+      document.getElementById('drag-helper').style.display='block';
+      
+    }
+  }
   function drop_handler(ev) {
     console.log("Drop");
     ev.preventDefault();
     var id = ev.dataTransfer.getData("text");
-    if (!test.includes(id) && ev.target.id == "dest_copy") {
+    if (!cart_list.includes("_" + id) && ev.target.id == "dest_copy") {
       var nodeCopy = document.getElementById(id).cloneNode(true);
-      nodeCopy.style.height = "70px";
+      nodeCopy.style.height = "140px";
+      nodeCopy.style.width = "250px";
+
+      var item = nodeCopy.querySelector(".menu-item");
+      item.style.width = "80%";
+      var button = nodeCopy.querySelector(".btn");
+      button.onclick = () => {
+        remove_cart("_" + id,ev)
+      };
+      button.style.display = "block";
       ev.target.appendChild(nodeCopy);
-      console.log(test);
-      console.log(id);
-      test.push(id);
+      nodeCopy.id = "_" + id
+      cart_list.push("_" + id);
+      check_cart()
+
     }
   }
+
+  function remove_element(ev){
+    console.log('del');
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+  function remove_cart(id,ev) {
+    if (cart_list.includes(id) && ev.target.id == "dest_copy") {
+      const child = document.getElementById(id);
+      ev.target.removeChild(child);
+      var idx = cart_list.indexOf(id)
+      cart_list.splice(idx,1);
+      check_cart()
+    }
+  }
+
+
+  
   function dragend_handler(ev) {
     console.log("dragEnd");
     //ev.target.style.border = "solid black";
   }
+
 </script>
-<div style="display: flex">
-  {% comment %} 여기에 디테일 정보 temp.html {% endcomment %}
-  <div style="position: relative; z-index: 1; width: 80%">
-    <ol class="list-group" style="row-gap: 3px; margin: 3px">
-      {% for store in cat_list.store_list %}
-      <li style="height: 100pt" class="list-group-item">
-        <p><strong>{{store.name}}</strong> | {{store.company}}</p>
-        <p>{{store.coupon}}</p>
-      </li>
-      {% endfor %}
-    </ol>
+
+<script>// 요소 생성, 제거 스크립트
+
+function switch_Display() {
+  if(document.getElementById("Display_On_Off").style.display == "none") {
+    window.scrollTo({top:0, behavior:"smooth"});
+    document.getElementById("start-menu").style.display = "none";
+    document.getElementById("Display_On_Off").style.display = "block";
+  } else {
+    document.getElementById("Display_On_Off").style.display = "none";
+    document.getElementById("start-menu").style.display = "block";
+  }
+}
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).on('submit', '#post-form', function(e){
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '/update',
+      data:{
+        store_name: $('#store_name').val(),
+      },
+      success: function(data){
+        const menu = JSON.parse(data)
+        let menu_html = ''
+        for(const me of menu.menu_list){
+          menu_html = menu_html + ('<li style="height: 100pt; margin-bottom: 15px;" class="list-group-item ellipsis" draggable="true" id="'+ me.name +'" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);">\
+                            <button type="button" aria-label="Close" class="btn btn-close" style="float: right; display:none"></button>\
+                            <div class="menu-item">\
+                              <p><strong>' + me.name+ '</strong></p>\
+                              <p>')
+          menu_html = menu_html + (me.price + "원 | " + me.info + "</p><p>" + me.coupon + "</p>" ) + ('</p></div></li>')
+        }
+        $('#store-detail').html(menu_html)
+        $('#crt-store-name').html(menu.name)
+        let store_info = '<table class="table">\
+                            <thead>\
+                              <tr>\
+                                <th scope="col"></th>\
+                                <th scope="col">'+ menu.service[0]+'</th>\
+                                <th scope="col">'+ menu.service[1]+'</th>\
+                                <th scope="col">'+ menu.service[2]+'</th>\
+                              </tr>\
+                            </thead>\
+                            <tbody>\
+                              <tr>\
+                                <th scope="row">배달 시간</th>\
+                                <td>'+ menu.time[0] +'</td>\
+                                <td>'+ menu.time[1] +'</td>\
+                                <td>'+ menu.time[2] +'</td>\
+                              </tr>\
+                              <tr>\
+                                <th scope="row">배달비</th>\
+                                <td>'+ menu.fee[0] +'</td>\
+                                <td>'+ menu.fee[1] +'</td>\
+                                <td>'+ menu.fee[2] +'</td>\
+                              </tr>\
+                              <tr>\
+                                <th scope="row">쿠폰정보</th>\
+                                <td>'+ menu.coupon[0] +'</td>\
+                                <td>'+ menu.coupon[1] +'</td>\
+                                <td>'+ menu.coupon[2] +'</td>\
+                              </tr>\
+                            </tbody>\
+                          </table>'
+        $('#crt-store-info').html(store_info)
+        let review_list = ''
+        for(review of menu.review_list){
+          if(review.platform === 0){
+            var platform_img = "https://search.pstatic.net/sunny/?src=https%3A%2F%2Fwww.baemin.com%2Ffavicon.ico&type=f30_30_png_expire24"
+          }
+          else if(review.platform === 1){
+            var platform_img = "https://search.pstatic.net/sunny/?src=https%3A%2F%2Fwww.yogiyo.co.kr%2Fmobile%2Fimage%2Ffavicon.ico&type=f30_30_png_expire24"
+          }
+          else{
+            var platform_img = "https://search.pstatic.net/sunny/?src=https%3A%2F%2Fwww.coupangeats.com%2Fwp-content%2Fuploads%2F2022%2F06%2Fcropped-2021012700107_0-192x192.png&type=f30_30_png_expire24"
+          }
+
+          if(review.menu.length > 25){
+            review.menu = review.menu.substr(0, 25) + "...";
+
+          }
+
+          review_list += '<li class="card">\
+                  <div class="card-body" style="display: flex;">\
+                    <img class="border rounded border-0" src="'+ platform_img +'" alt="img" style="width: 30px; height:30px; float: left;">\
+                    <p style="width: 75%;"><strong>'  + review.author + ' | ' + review.created_at + '</strong><br style="color: rgba(0,0,0,0.3);">' + review.menu + '</p>\
+                    <img class="border rounded border-1" src="'+ review.path +'" alt="img" style="width: 110px; height:110px; float: right;">\
+                    </div>\
+                    <p style="margin-left: 30px; position: relative; top: -30px;">' + review.content + '</p>\
+                    </li>'
+                  }
+          $('#review-list').html(review_list)
+        }
+
+    })
+  })
+
+</script>
+
+
+
+<div style="display: flex; margin-left: 90px; margin-right: 90px">
+  <!-- start -->
+  <div>
+    <div id="start-menu" class="border border-0 z-0 position-absolute card" style="width: 80%; height: 100%;">
+
+      <div class="container">
+        <div class="row justify-content-between">
+          <div style="margin-top: 5px; padding-left: 0;">
+            <div class="background font">chicken<br>ㅊㅣㅋㅣㄴ</div>
+            <h1 class="font">가게 리스트</h1>
+            <ul class="list-group" style="width: 100%; row-gap: 3px; margin: 3px; float: left;">
+              {% for store in cat_list.store_list %}
+                <li style="height: 100pt;" class="list-group-item">
+                  <form action="" id="post-form">
+                    {% csrf_token %}
+                    <button id="store_name" style="text-align: left;" type="submit" onclick="switch_Display();" name="store_name"><strong>{{store.name}}</strong></button>
+                    <p style="text-align: left;">{{store.adrs}} | {{store.sale}}</p>
+                  </form>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+
+    <div class="z-1 position-absolute card" id="Display_On_Off" style="display: none; width: 80%;">
+      <button type="button" aria-label="Close" class="btn btn-close" onclick="switch_Display()" style="float: right;"></button>
+      <div class="container">
+      <!-- store list element start -->
+        <div class="tab">
+          <ul class="tabitems" style="width: 80%;">
+            <li class="item" style="display: inline-block; width: 10%;">
+              <a class="tablink active" href="#" onclick="openTab(event, 'tabA')">가게 메뉴</a>
+            </li>
+            <li class="item" style="display: inline-block; width: 10%;">
+              <a class="tablink" href="#" onclick="openTab(event, 'tabB')">리뷰 보기</a>
+            </li>
+          </ul>
+        </div>
+      
+      <!--tabA start-->                                 
+          <div id="tabA" class="tabcontent" style="display: block;">
+            <p id="crt-store-name" class="border-bottom border-5" style="font-size: 50px"></p>
+            <p id="crt-store-info"></p>
+            <div id="store-detail"></div>
+          </div>
+          <!--tabA end-->
+          <!--tabB start--> 
+          <div id="tabB" class="tabcontent" style="display: none;">
+            <div class="card-body mb-3 border-bottom border-5" style="height: 180px;">
+              <label for="exampleFormControlTextarea1" class="form-label">댓글 작성하기</label>
+              <input class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-bottom: 6px;"></input>
+              <button class="btn btn-success" type="submit" style="float: right;">작성</button>
+            </div>
+            <ul id="review-list" class="list-group" style="row-gap: 3px; margin: 3px"></ul>
+          </div>
+        </div>
+      <!-- store list element end -->
+      <script>
+        function openTab(evt, tabName) {
+          var i, tabcontent, tablink;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablink = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablink.length; i++) {
+            tablink[i].className = tablink[i].className.replace(" active", "");
+          }
+          document.getElementById(tabName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+      </script>
+      </div>
+    </div>
   </div>
-  <div
-    style="
-      position: relative;
-      z-index: 3;
-      width: 20%;
-      margin-right: 10px;
-      position: fixed;
-      margin-left: 80%;
-      height: 600px;
-    "
-    class="card"
-  >
-    <strong
-      class="card-body"
-      id="dest_copy"
-      ondrop="drop_handler(event);"
-      ondragover="dragover_handler(event);"
-      >cart</strong
-    >
-    <center>
-      <button
-        class="btn btn-outline-success active"
-        style="
-          width: 70%;
-          margin-bottom: 1pt;
-          background-color: #005555;
-          justify-content: center;
-        "
-      >
-        비교
-      </button>
-    </center>
-    <!-- 버튼타입 type="submit" -->
+  <!-- end -->
+
+  <!-- cart start -->
+  <div style="width: 15%; margin-right: 10px; position: fixed; margin-left: 83.8%; height: 700px;" class="card">
+    <strong class="card-body" id="dest_copy" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">cart
+      <div id="drag-helper">
+        여기에 메뉴를 드래그하세요.
+      </div>
+      </strong>
+      <center>
+          <button
+              class="btn btn-outline-success active"
+              style="
+              width: 70%;
+              margin-bottom: 5pt;
+              background-color: #005555;
+              justify-content: center;
+              ">비교
+          </button>
+      </center>
   </div>
+
+  <!-- cart end -->
+
+
 </div>
 {% endblock main %}
