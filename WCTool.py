@@ -95,10 +95,3 @@ def save_wc_to_db(db_id, db_pw, host, port = 3306):
     for restaurant, reviews in reviews_by_restaurant.items():
         vocab_cnt = count_token_freq(reviews)
         generate_wordcloud(restaurant, vocab_cnt)
-
-
-if __name__ == '__main__':
-    save_wc_to_db(db_id = 'root',
-                  db_pw = 'tladnwhd23',
-                  host = 'localhost',
-                  port = 8888)
