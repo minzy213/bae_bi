@@ -62,7 +62,7 @@
   }
 
 </style>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script> //드래그 앤 드롭 스크립트
   function dragstart_handler(ev) {
     console.log("dragStart");
@@ -147,7 +147,6 @@ function switch_Display() {
 }
 
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
   function getCookie(name) {
@@ -182,12 +181,15 @@ function switch_Display() {
 
 <script type="text/javascript">
   $(document).on('submit', '#post-form', function(e){
+
     e.preventDefault();
+    console.log(e.target.getElementsByTagName('strong')[0].textContent)   
+    
     $.ajax({
       type: 'POST',
       url: '/update',
       data:{
-        store_name: $('#store_name').val(),
+        store_name: e.target.getElementsByTagName('strong')[0].textContent
       },
       success: function(data){
         const menu = JSON.parse(data)
@@ -349,6 +351,7 @@ function switch_Display() {
   </div>
   <!-- end -->
 
+
   <!-- cart start -->
   <div style="width: 15%; margin-right: 10px; position: fixed; margin-left: 83.8%; height: 700px;" class="card">
     <strong class="card-body" id="dest_copy" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">cart
@@ -357,15 +360,20 @@ function switch_Display() {
       </div>
       </strong>
       <center>
+        <form action="{% url 'board:comp_cart' %}" method="POST">
+          {% csrf_token %}
           <button
-              class="btn btn-outline-success active"
-              style="
-              width: 70%;
-              margin-bottom: 5pt;
-              background-color: #005555;
-              justify-content: center;
-              ">비교
+            id="compare_cart"
+            type="submit"
+            class="btn btn-outline-success active"
+            style="
+            width: 70%;
+            margin-bottom: 5pt;
+            background-color: #005555;
+            justify-content: center;
+            ">비교
           </button>
+        </form>
       </center>
   </div>
 

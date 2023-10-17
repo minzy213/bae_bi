@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    .background{
-      background-image: url("https://nenechicken.com/17_new/images/menu/30005.jpg");
-      font-size: 90px;
-      color: whitesmoke;
-      text-align: center;
-      line-height: 800px;
-      background-size: cover;
-    }
-  </style>
-</head>
-<body>
-  <div class="background" style="width: 80%; height: 800px; ">치킨~~~</div>
-</body>
-</html>
+<script type="text/javascript">
+  a = null;
+  $(document).on("submit", "#compare_cart", function (e) {
+    e.preventDefault();
+
+    $.ajax({
+      type: "POST",
+      url: "/comp_cart",
+      data: {
+        cart_list: cart_list,
+      },
+    });
+  });
+</script>

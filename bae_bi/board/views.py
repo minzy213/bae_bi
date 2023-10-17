@@ -25,14 +25,9 @@ def main(request):
     return render(request, 'board/main.html', {'category': category})
 
 def category(request, category_name):
-    # pass
-    if request.method == "POST":
-        cart_list = request.GET['test']
-        return redirect(request, 'board/temp2.html' , {'cart_list':cart_list})
-
     cat_list = {
         'name': '치킨', 'store_list' : [
-            {'name':'BHC 동판교점', 'adrs':'서울특별시 ~~', 'sale':'~~~~~'},
+            {'name':'BHC aaa', 'adrs':'서울특별시 ~~', 'sale':'~~~~~'},
             {'name':'교촌치킨 동판교점', 'adrs':'서울특별시 ~~', 'sale':'dfsdfsdf'},
             {'name':'a치킨', 'adrs':'서울특별시 ~~', 'sale':'gsdfbsdcv'},
             {'name':'b치킨', 'adrs':'서울특별시 ~~', 'sale':'sdfasdfvxc'},
@@ -44,8 +39,10 @@ def category(request, category_name):
     return render(request, 'board/category.html' , {'cat_list':cat_list})
     
 def update(request):
+    print("update")
     # bhc를 눌렀다는 가정하에...
     if request.method == "POST":
+        print(request.POST.get('store_name'))
         menu = {
             'name': 'BHC 동판교점', 
             'service': ['배민', '요기요', '쿠팡이츠'],
@@ -66,6 +63,14 @@ def update(request):
         return HttpResponse(json.dumps(menu))
 
     return HttpResponse({"error": "invalid request"})
+
+
+def comp_cart(request):
+    print("comp_cart")
+    cart = request.POST.get('cart_list')
+    print(cart)
+    return render(request,'board/compare.html', {'cart':cart})
+
 
 def review_update(request):
     if request.method == "POST":
