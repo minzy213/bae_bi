@@ -1,34 +1,99 @@
 {% extends "./base.html" %} {% load static %} {% block pagename %}bae-bi's
 comparing menu page{% endblock pagename %} {% block main %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  function SetCookie(strName, strValue, iSecond) {
-    var strCookie = strName + "=" + encodeURIComponent(strValue);
-    if (typeof iSecond === "number") {
-      strCookie += "; max-age=" + iSecond;
-    }
-
-    // QQQ: path, domain 유효범위를 설정하고 싶으면 여기서 strCookie 변수에 추가해 주어야 한다.
-
-    document.cookie = strCookie;
-  }
-  function DelCookie() {
-    var strName = document.getElementById("name").value;
-    var strValue = document.getElementById("value").value;
-    SetCookie(strName, strValue, 0);
-    ShowCookie();
-  }
-
   function getCookie(name) {
-    let matches = document.cookie.match(
-      new RegExp(
-        "(?:^|; )" +
-          name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
-          "=([^;]*)"
-      )
-    );
-    return matches ? decodeURIComponent(matches[1]) : undefined;
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = cookie.substring(name.length + 1);
+          break;
+        }
+      }
+    }
+    return cookieValue;
   }
-</script>
+  var csrftoken = getCookie("csrftoken");
 
-<p getCookie("csrftoken")></p>
-{% endblock main %}
+  function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+  }
+  $.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+    },
+  });
+
+  let cart_str = getCookie("cart");
+  st = JSON.parse(cart_str);
+  $("#aaa").html(st);
+</script>
+{% comment %}
+<div style="display: flex; margin-left: 300px">
+  <div class="card" style="width: 30%; height: 900px; margin-right: 2px">
+    <div class="card-body">
+      <h5 class="card-title">이백장 [왕]돈가스</h5>
+      <p class="card-text">
+        11900원 | 눈꽃등심돈가스 ＋ 함박스테이크 ＋ 밥 ＋ 반찬 ＋샐러드
+      </p>
+      <img
+        src="https://i.namu.wiki/i/gMSvGksMaKPdznDSM-QxYwYGN-K1zLqOzOpNSAfOwRlrlx6ZY61kOvHHeAHtk9RWrTnA1nnrPri_XkXSewEkpQ.webp"
+        alt=""
+        style="width: 400px; height: 300px"
+      />
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+  <div class="card" style="width: 30%; height: 900px; margin-right: 2px">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">
+        Some quick example text to build on the card title and make up the bulk
+        of the card's content.
+      </p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+  <div class="card" style="width: 30%; height: 900px; margin-right: 2px">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">
+        Some quick example text to build on the card title and make up the bulk
+        of the card's content.
+      </p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+</div>
+{% endcomment %} {% endblock main %}

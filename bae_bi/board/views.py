@@ -20,6 +20,8 @@ def main(request):
     return render(request, 'board/main.html', {'category': category})
 
 def category(request, category_name):
+    if category_name == 'comp_cart':
+        return comp_cart(request)
     cat_list = Category.objects.get(url=category_name)  # 한식 id 5
     cat_dict = {
         'name': cat_list.name,
@@ -95,10 +97,7 @@ def update(request):
 
 
 def comp_cart(request):
-    print("comp_cart")
-    cart = request.POST.get('cart_list')
-    print(cart)
-    return render(request,'board/compare.html', {'cart':cart})
+    return render(request,'board/compare.html')
 
 
 def review_update(request):

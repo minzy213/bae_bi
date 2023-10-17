@@ -48,8 +48,7 @@
   }
   .background{
       width: 100%;
-      height: 60%;
-      background-image: url("https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg.flaticon.com%2Ficons%2Fpng%2F512%2F701%2F701984.png%3Fsize%3D1200x630f%26pad%3D10%2C10%2C10%2C10%26ext%3Dpng%26bg%3DFFFFFFFF&type=sc960_832");
+      height: 200px;
       font-size: 90px;
       color: #338888;
       line-height: 80px;
@@ -80,12 +79,15 @@
   document.addEventListener("DOMContentLoaded", function(event) {
     let target = document.getElementById("dest_copy")
     if (cart_str){
-      cart_list = JSON.parse('['+cart_str+']').splice(0,-2)
+      cart_list = JSON.parse('['+cart_str+']')
       console.log(cart_list)
       for( cart of cart_list){
         item = renderCart(cart)
-        target.appendChild(item)
-        cart_list.push(cart.name)
+        if(item.id !=="_undefined"){
+          target.appendChild(item)
+          cart_list.push(cart.name)
+        }
+        
       }
     } else{
       cart_list = []
@@ -107,17 +109,20 @@
     desc.textContent = cart_dict.desc
 
     var button = document.createElement("button");
-    button.textContent = "삭제";
     button.style.float = "right";
-    button.classList.add("btn", "btn-danger"); 
+    button.setAttribute("aria-label","Close");
+    button.classList.add("btn", "btn-close"); 
     button.type = "button";
+    n = cart_dict.name
     button.onclick = () => {
-      remove_cart(cart_dict.name,target)
+      remove_cart("_"+n,target)
     };
-
+    
+    li.appendChild(button);
     li.appendChild(na_me);
     li.appendChild(desc);
-    li.appendChild(button);
+
+    li.setAttribute("id","_"+n);
 
     return li
   }
@@ -133,11 +138,11 @@
   function drop_handler(ev) {
     ev.preventDefault();
     var id = ev.dataTransfer.getData("text");
-    if (ev.target.id == "dest_copy") {
+    if (ev.target.id === "dest_copy") {
       var nodeCopy = document.getElementById(id).cloneNode(true);
       cart_dict = {
         'name' : nodeCopy.id,
-        'desc' : "asdasdasd"
+        'desc' : nodeCopy.textContent,
       }
 
       cart_str = JSON.stringify(cart_dict)
@@ -155,12 +160,14 @@
   }
 
   function remove_cart(id,ev) {
-    if (cart_list.includes(id) && ev.target.id == "dest_copy") {
+
+    if (ev.id === "dest_copy") {
+      console.log(id)
       const child = document.getElementById(id);
-      ev.target.removeChild(child);
+      ev.removeChild(child);
       cart_str = JSON.stringify(cart_list)
+      console.log(cart_str)
       AddCookie('cart', cart_str)
-      // DelCookie('cart', id.substr(1))
       check_cart()
     }
   }
@@ -212,7 +219,7 @@
 <script>// 요소 생성, 제거 스크립트
 
 function switch_Display() {
-  if(document.getElementById("Display_On_Off").style.display == "none") {
+  if(document.getElementById("Display_On_Off").style.display === "none") {
     window.scrollTo({top:0, behavior:"smooth"});
     document.getElementById("start-menu").style.display = "none";
     document.getElementById("Display_On_Off").style.display = "block";
