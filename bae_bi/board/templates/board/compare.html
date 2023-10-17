@@ -1,0 +1,34 @@
+{% extends "./base.html" %} {% load static %} {% block pagename %}bae-bi's
+comparing menu page{% endblock pagename %} {% block main %}
+<script>
+  function SetCookie(strName, strValue, iSecond) {
+    var strCookie = strName + "=" + encodeURIComponent(strValue);
+    if (typeof iSecond === "number") {
+      strCookie += "; max-age=" + iSecond;
+    }
+
+    // QQQ: path, domain 유효범위를 설정하고 싶으면 여기서 strCookie 변수에 추가해 주어야 한다.
+
+    document.cookie = strCookie;
+  }
+  function DelCookie() {
+    var strName = document.getElementById("name").value;
+    var strValue = document.getElementById("value").value;
+    SetCookie(strName, strValue, 0);
+    ShowCookie();
+  }
+
+  function getCookie(name) {
+    let matches = document.cookie.match(
+      new RegExp(
+        "(?:^|; )" +
+          name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+          "=([^;]*)"
+      )
+    );
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+</script>
+
+<p getCookie("csrftoken")></p>
+{% endblock main %}

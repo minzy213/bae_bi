@@ -17,11 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from board.views import update 
+from board.views import update
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', include('board.urls')),
-    path('mypage/', include('board.urls')),
     path('main/', include('board.urls')),
     path('update',update, name="update" ),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
