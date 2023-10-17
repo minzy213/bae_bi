@@ -1,684 +1,685 @@
 {
-    "restaurants":[
+    "restaurants": [
         {
-            "name":"이백장돈가스 분당아름마을점",
-            "service":[
+            "name": "이백장돈가스-분당아름마을점",
+            "service": [
                 {
-                    "name":"배민",
-                    "delivery_available_price":16000,
-                    "delivery_time":"40~45분",
-                    "delivery_tip":"2,000원~3,000원",
-                    "promotions":[
+                    "name": "배민",
+                    "delivery_available_price": 16000,
+                    "delivery_time": "40~45분",
+                    "delivery_tip": "2,000원~3,000원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":2000,
-                            "condition":"50,000원 이상"
+                            "delivery_tip_on_condition": 2000,
+                            "condition": "50,000원 이상"
                         },
                         {
-                            "delivery_tip_on_condition":3000,
-                            "condition":"16,000원~50,000원 미만"
+                            "delivery_tip_on_condition": 3000,
+                            "condition": "16,000원~50,000원 미만"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"스쿨푸드 판교점",
-            "service":[
+            "name": "스쿨푸드-판교점",
+            "service": [
                 {
-                    "name":"배민(한집배달)",
-                    "delivery_available_price":17000,
-                    "delivery_time":"28~38분",
-                    "delivery_tip":3770,
-                    "promotions":[
+                    "name": "배민(한집배달)",
+                    "delivery_available_price": 17000,
+                    "delivery_time": "28~38분",
+                    "delivery_tip": 3770,
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[]
+                    "additional_dc": "",
+                    "delivery_tip_list": []
                 },
                 {
-                    "name":"배민(알뜰배달)",
-                    "delivery_available_price":17000,
-                    "delivery_time":"32~47분",
-                    "delivery_tip":"770원~3,270원",
-                    "promotions":[
+                    "name": "배민(알뜰배달)",
+                    "delivery_available_price": 17000,
+                    "delivery_time": "32~47분",
+                    "delivery_tip": "770원~3,270원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":770,
-                            "condition":"50,000원 이상"
+                            "delivery_tip_on_condition": 770,
+                            "condition": "50,000원 이상"
                         },
                         {
-                            "delivery_tip_on_condition":2170,
-                            "condition":"40,000원~50,000원 미만"
+                            "delivery_tip_on_condition": 2170,
+                            "condition": "40,000원~50,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":2470,
-                            "condition":"30,000원~40,000원 미만"
+                            "delivery_tip_on_condition": 2470,
+                            "condition": "30,000원~40,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":2970,
-                            "condition":"24,000원~30,000원 미만"
+                            "delivery_tip_on_condition": 2970,
+                            "condition": "24,000원~30,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":3270,
-                            "condition":"17,000원~24,000원 미만"
+                            "delivery_tip_on_condition": 3270,
+                            "condition": "17,000원~24,000원 미만"
                         }
                     ]
                 },
                 {
-                    "name":"쿠팡이츠",
-                    "delivery_available_price":17000,
-                    "delivery_time":"25~35분",
-                    "delivery_tip":"3,400원~3,700원",
-                    "promotions":[
+                    "name": "쿠팡이츠",
+                    "delivery_available_price": 17000,
+                    "delivery_time": "25~35분",
+                    "delivery_tip": "3,400원~3,700원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"와우회원"
+                            "dc": "10%",
+                            "on_condition": "와우회원"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":3400,
-                            "condition":"세이브배달"
+                            "delivery_tip_on_condition": 3400,
+                            "condition": "세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":3700,
-                            "condition":"한집배달"
+                            "delivery_tip_on_condition": 3700,
+                            "condition": "한집배달"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"차고집냉면 성남분당점",
-            "service":[
+            "name": "차고집냉면-성남분당점",
+            "service": [
                 {
-                    "name":"배민",
-                    "delivery_available_price":3000,
-                    "delivery_time":"46~61분",
-                    "delivery_tip":"5,000원~5,900원",
-                    "promotions":[
+                    "name": "배민",
+                    "delivery_available_price": 3000,
+                    "delivery_time": "46~61분",
+                    "delivery_tip": "5,000원~5,900원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         },
                         {
-                            "dc":1000,
-                            "on_condition":"1,000원 할인 쿠폰 소지 및 20,000원 이상 주문 시"
+                            "dc": 1000,
+                            "on_condition": "1,000원 할인 쿠폰 소지 및 20,000원 이상 주문 시"
                         },
                         {
-                            "dc":2000,
-                            "on_condition":"2,000원 할인 쿠폰 소지 및 35,000원 이상 주문 시"
+                            "dc": 2000,
+                            "on_condition": "2,000원 할인 쿠폰 소지 및 35,000원 이상 주문 시"
                         },
                         {
-                            "dc":2500,
-                            "on_condition":"2,500원 할인 쿠폰 소지 및 45,000원 이상 주문 시"
+                            "dc": 2500,
+                            "on_condition": "2,500원 할인 쿠폰 소지 및 45,000원 이상 주문 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":5000,
-                            "condition":"40,000원 이상"
+                            "delivery_tip_on_condition": 5000,
+                            "condition": "40,000원 이상"
                         },
                         {
-                            "delivery_tip_on_condition":5900,
-                            "condition":"3,000원~40,000원 미만"
+                            "delivery_tip_on_condition": 5900,
+                            "condition": "3,000원~40,000원 미만"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"커리1978",
-            "service":[
+            "name": "커리1978",
+            "service": [
                 {
-                    "name":"배민",
-                    "delivery_available_price":12000,
-                    "delivery_time":"31~46분",
-                    "delivery_tip":4000,
-                    "promotions":[
+                    "name": "배민",
+                    "delivery_available_price": 12000,
+                    "delivery_time": "31~46분",
+                    "delivery_tip": 4000,
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[]
+                    "additional_dc": "",
+                    "delivery_tip_list": []
                 },
                 {
-                    "name":"쿠팡이츠",
-                    "delivery_available_price":13000,
-                    "delivery_time":"21~31분",
-                    "delivery_tip":"4,400원~4,700원",
-                    "promotions":[
+                    "name": "쿠팡이츠",
+                    "delivery_available_price": 13000,
+                    "delivery_time": "21~31분",
+                    "delivery_tip": "4,400원~4,700원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"와우회원"
+                            "dc": "10%",
+                            "on_condition": "와우회원"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":4400,
-                            "condition":"세이브배달"
+                            "delivery_tip_on_condition": 4400,
+                            "condition": "세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":4700,
-                            "condition":"한집배달"
+                            "delivery_tip_on_condition": 4700,
+                            "condition": "한집배달"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"고봉민김밥 분당서현로데오점",
-            "service":[
+            "name": "고봉민김밥-분당서현로데오점",
+            "service": [
                 {
-                    "name":"배민(한집배달)",
-                    "delivery_available_price":15000,
-                    "delivery_time":"19~29분",
-                    "delivery_tip":4540,
-                    "promotions":[
+                    "name": "배민(한집배달)",
+                    "delivery_available_price": 15000,
+                    "delivery_time": "19~29분",
+                    "delivery_tip": 4540,
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[]
+                    "additional_dc": "",
+                    "delivery_tip_list": []
                 },
                 {
-                    "name":"배민(알뜰배달)",
-                    "delivery_available_price":15000,
-                    "delivery_time":"19~29분",
-                    "delivery_tip":"1,540원~4,040원",
-                    "promotions":[
+                    "name": "배민(알뜰배달)",
+                    "delivery_available_price": 15000,
+                    "delivery_time": "19~29분",
+                    "delivery_tip": "1,540원~4,040원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":1540,
-                            "condition":"50,000원 이상"
+                            "delivery_tip_on_condition": 1540,
+                            "condition": "50,000원 이상"
                         },
                         {
-                            "delivery_tip_on_condition":2940,
-                            "condition":"40,000원~50,000원 미만"
+                            "delivery_tip_on_condition": 2940,
+                            "condition": "40,000원~50,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":3240,
-                            "condition":"30,000원~40,000원 미만"
+                            "delivery_tip_on_condition": 3240,
+                            "condition": "30,000원~40,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":3740,
-                            "condition":"24,000원~30,000원 미만"
+                            "delivery_tip_on_condition": 3740,
+                            "condition": "24,000원~30,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":4040,
-                            "condition":"15,000원~24,000원 미만"
+                            "delivery_tip_on_condition": 4040,
+                            "condition": "15,000원~24,000원 미만"
                         }
                     ]
                 },
                 {
-                    "name":"쿠팡이츠",
-                    "delivery_available_price":15000,
-                    "delivery_time":"28~38분",
-                    "delivery_tip":"1,100원~4,400원",
-                    "promotions":[
+                    "name": "쿠팡이츠",
+                    "delivery_available_price": 15000,
+                    "delivery_time": "28~38분",
+                    "delivery_tip": "1,100원~4,400원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"와우회원"
+                            "dc": "10%",
+                            "on_condition": "와우회원"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":1100,
-                            "condition":"35,000원 이상+세이브배달"
+                            "delivery_tip_on_condition": 1100,
+                            "condition": "35,000원 이상+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":1400,
-                            "condition":"35,000원 이상+한집배달"
+                            "delivery_tip_on_condition": 1400,
+                            "condition": "35,000원 이상+한집배달"
                         },
                         {
-                            "delivery_tip_on_condition":4100,
-                            "condition":"15,000원~35,000원 미만+세이브배달"
+                            "delivery_tip_on_condition": 4100,
+                            "condition": "15,000원~35,000원 미만+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":4400,
-                            "condition":"15,000원~35,000원 미만+한집배달"
+                            "delivery_tip_on_condition": 4400,
+                            "condition": "15,000원~35,000원 미만+한집배달"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"상무초밥 분당서현점",
-            "service":[
+            "name": "상무초밥-분당서현점",
+            "service": [
                 {
-                    "name":"배민(한집배달)",
-                    "delivery_available_price":15000,
-                    "delivery_time":"34~44분",
-                    "delivery_tip":4540,
-                    "promotions":[
+                    "name": "배민(한집배달)",
+                    "delivery_available_price": 15000,
+                    "delivery_time": "34~44분",
+                    "delivery_tip": 4540,
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[]
+                    "additional_dc": "",
+                    "delivery_tip_list": []
                 },
                 {
-                    "name":"배민(알뜰배달)",
-                    "delivery_available_price":15000,
-                    "delivery_time":"34~49분",
-                    "delivery_tip":"1,540원~4,040원",
-                    "promotions":[
+                    "name": "배민(알뜰배달)",
+                    "delivery_available_price": 15000,
+                    "delivery_time": "34~49분",
+                    "delivery_tip": "1,540원~4,040원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[{
-                        "delivery_tip_on_condition":1540,
-                        "condition":"50,000원 이상"
-                    },
-                    {
-                        "delivery_tip_on_condition":2940,
-                        "condition":"40,000원~50,000원 미만"
-                    },
-                    {
-                        "delivery_tip_on_condition":3240,
-                        "condition":"30,000원~40,000원 미만"
-                    },
-                    {
-                        "delivery_tip_on_condition":3740,
-                        "condition":"24,000원~30,000원 미만"
-                    },
-                    {
-                        "delivery_tip_on_condition":4040,
-                        "condition":"15,000원~24,000원 미만"
-                    }]
+                    "additional_dc": "",
+                    "delivery_tip_list": [
+                        {
+                            "delivery_tip_on_condition": 1540,
+                            "condition": "50,000원 이상"
+                        },
+                        {
+                            "delivery_tip_on_condition": 2940,
+                            "condition": "40,000원~50,000원 미만"
+                        },
+                        {
+                            "delivery_tip_on_condition": 3240,
+                            "condition": "30,000원~40,000원 미만"
+                        },
+                        {
+                            "delivery_tip_on_condition": 3740,
+                            "condition": "24,000원~30,000원 미만"
+                        },
+                        {
+                            "delivery_tip_on_condition": 4040,
+                            "condition": "15,000원~24,000원 미만"
+                        }
+                    ]
                 },
                 {
-                    "name":"쿠팡이츠",
-                    "delivery_available_price":15000,
-                    "delivery_time":"33~43분",
-                    "delivery_tip":"1,100원~4,400원",
-                    "promotions":[
+                    "name": "쿠팡이츠",
+                    "delivery_available_price": 15000,
+                    "delivery_time": "33~43분",
+                    "delivery_tip": "1,100원~4,400원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"와우회원"
+                            "dc": "10%",
+                            "on_condition": "와우회원"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":1100,
-                            "condition":"100,000원 이상+세이브배달"
+                            "delivery_tip_on_condition": 1100,
+                            "condition": "100,000원 이상+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":1400,
-                            "condition":"100,000원 이상+한집배달"
+                            "delivery_tip_on_condition": 1400,
+                            "condition": "100,000원 이상+한집배달"
                         },
                         {
-                            "delivery_tip_on_condition":4100,
-                            "condition":"15,000원~100,000원 미만+세이브배달"
+                            "delivery_tip_on_condition": 4100,
+                            "condition": "15,000원~100,000원 미만+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":4400,
-                            "condition":"15,000원~100,000원 미만+한집배달"
+                            "delivery_tip_on_condition": 4400,
+                            "condition": "15,000원~100,000원 미만+한집배달"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"유부대장",
-            "service":[
+            "name": "유부대장",
+            "service": [
                 {
-                    "name":"배민",
-                    "delivery_available_price":9900,
-                    "delivery_time":"33~48분",
-                    "delivery_tip":"500원~3,400원",
-                    "promotions":[
+                    "name": "배민",
+                    "delivery_available_price": 9900,
+                    "delivery_time": "33~48분",
+                    "delivery_tip": "500원~3,400원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         },
                         {
-                            "dc":1000,
-                            "on_condition":"1,000원 할인 쿠폰 소지 및 12,000원 이상 주문 시"
+                            "dc": 1000,
+                            "on_condition": "1,000원 할인 쿠폰 소지 및 12,000원 이상 주문 시"
                         },
                         {
-                            "dc":1500,
-                            "on_condition":"1,500원 할인 쿠폰 소지 및 25,000원 이상 주문 시"
+                            "dc": 1500,
+                            "on_condition": "1,500원 할인 쿠폰 소지 및 25,000원 이상 주문 시"
                         },
                         {
-                            "dc":2000,
-                            "on_condition":"2,000원 할인 쿠폰 소지 및 35,000원 이상 주문 시"
+                            "dc": 2000,
+                            "on_condition": "2,000원 할인 쿠폰 소지 및 35,000원 이상 주문 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":500,
-                            "condition":"50,000원 이상"
+                            "delivery_tip_on_condition": 500,
+                            "condition": "50,000원 이상"
                         },
                         {
-                            "delivery_tip_on_condition":3400,
-                            "condition":"9,900원~50,000원 미만"
+                            "delivery_tip_on_condition": 3400,
+                            "condition": "9,900원~50,000원 미만"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"뜸들이다 수내점",
-            "service":[
+            "name": "뜸들이다-수내점",
+            "service": [
                 {
-                    "name":"배민(한집배달)",
-                    "delivery_available_price":8700,
-                    "delivery_time":"28~38분",
-                    "delivery_tip":"2,310원~4,710원",
-                    "promotions":[
+                    "name": "배민(한집배달)",
+                    "delivery_available_price": 8700,
+                    "delivery_time": "28~38분",
+                    "delivery_tip": "2,310원~4,710원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":2310,
-                            "condition":"35,000원 이상"
+                            "delivery_tip_on_condition": 2310,
+                            "condition": "35,000원 이상"
                         },
                         {
-                            "delivery_tip_on_condition":4710,
-                            "condition":"8,700원~35,000원 미만"
+                            "delivery_tip_on_condition": 4710,
+                            "condition": "8,700원~35,000원 미만"
                         }
                     ]
                 },
                 {
-                    "name":"쿠팡이츠",
-                    "delivery_available_price":8700,
-                    "delivery_time":"25~35분",
-                    "delivery_tip":"1,800원~4,600원",
-                    "promotions":[],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "name": "쿠팡이츠",
+                    "delivery_available_price": 8700,
+                    "delivery_time": "25~35분",
+                    "delivery_tip": "1,800원~4,600원",
+                    "promotions": [],
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":1800,
-                            "condition":"30,000원 이상+세이브배달"
+                            "delivery_tip_on_condition": 1800,
+                            "condition": "30,000원 이상+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":2100,
-                            "condition":"30,000원 이상+한집배달"
+                            "delivery_tip_on_condition": 2100,
+                            "condition": "30,000원 이상+한집배달"
                         },
                         {
-                            "delivery_tip_on_condition":4300,
-                            "condition":"8,700원~30,000원 미만+세이브배달"
+                            "delivery_tip_on_condition": 4300,
+                            "condition": "8,700원~30,000원 미만+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":4600,
-                            "condition":"8,700원~30,000원 미만+한집배달"
+                            "delivery_tip_on_condition": 4600,
+                            "condition": "8,700원~30,000원 미만+한집배달"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"일품마라탕&탕수육",
-            "service":[
+            "name": "일품마라탕&탕수육",
+            "service": [
                 {
-                    "name":"배민",
-                    "delivery_available_price":15000,
-                    "delivery_time":"27~42분",
-                    "delivery_tip":"0원~2,000원",
-                    "promotions":[
+                    "name": "배민",
+                    "delivery_available_price": 15000,
+                    "delivery_time": "27~42분",
+                    "delivery_tip": "0원~2,000원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":0,
-                            "condition":"50,000원 이상"
+                            "delivery_tip_on_condition": 0,
+                            "condition": "50,000원 이상"
                         },
                         {
-                            "delivery_tip_on_condition":2000,
-                            "condition":"15,000원~50,000원 미만"
+                            "delivery_tip_on_condition": 2000,
+                            "condition": "15,000원~50,000원 미만"
                         }
                     ]
                 },
                 {
-                    "name":"쿠팡이츠",
-                    "delivery_available_price":15000,
-                    "delivery_time":"23~33분",
-                    "delivery_tip":"400원~3,200원",
-                    "promotions":[
+                    "name": "쿠팡이츠",
+                    "delivery_available_price": 15000,
+                    "delivery_time": "23~33분",
+                    "delivery_tip": "400원~3,200원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"와우회원"
+                            "dc": "10%",
+                            "on_condition": "와우회원"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":400,
-                            "condition":"50,000원 이상+세이브배달"
+                            "delivery_tip_on_condition": 400,
+                            "condition": "50,000원 이상+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":700,
-                            "condition":"50,000원 이상+한집배달"
+                            "delivery_tip_on_condition": 700,
+                            "condition": "50,000원 이상+한집배달"
                         },
                         {
-                            "delivery_tip_on_condition":2900,
-                            "condition":"15,000원~50,000원 미만+세이브배달"
+                            "delivery_tip_on_condition": 2900,
+                            "condition": "15,000원~50,000원 미만+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":3200,
-                            "condition":"15,000원~50,000원 미만+한집배달"
+                            "delivery_tip_on_condition": 3200,
+                            "condition": "15,000원~50,000원 미만+한집배달"
                         }
                     ]
                 }
             ]
         },
         {
-            "name":"서현초밥",
-            "service":[
+            "name": "서현초밥",
+            "service": [
                 {
-                    "name":"배민",
-                    "delivery_available_price":16000,
-                    "delivery_time":"49~64분",
-                    "delivery_tip":3000,
-                    "promotions":[
+                    "name": "배민",
+                    "delivery_available_price": 16000,
+                    "delivery_time": "49~64분",
+                    "delivery_tip": 3000,
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[]
+                    "additional_dc": "",
+                    "delivery_tip_list": []
                 },
                 {
-                    "name":"쿠팡이츠",
-                    "delivery_available_price":16000,
-                    "delivery_time":"26~36분",
-                    "delivery_tip":"4,300원~4,900원",
-                    "promotions":[
+                    "name": "쿠팡이츠",
+                    "delivery_available_price": 16000,
+                    "delivery_time": "26~36분",
+                    "delivery_tip": "4,300원~4,900원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"와우회원"
+                            "dc": "10%",
+                            "on_condition": "와우회원"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":4300,
-                            "condition":"세이브배달"
+                            "delivery_tip_on_condition": 4300,
+                            "condition": "세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":4900,
-                            "condition":"한집배달"
+                            "delivery_tip_on_condition": 4900,
+                            "condition": "한집배달"
                         }
                     ]
-                }
-                                
-            ]
-        },
-        {
-            "name":"땅끝수산",
-            "service":[
-                {
-                    "name":"배민",
-                    "delivery_available_price":30000,
-                    "delivery_time":"39~54분",
-                    "delivery_tip":4000,
-                    "promotions":[
-                        {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
-                        },
-                        {
-                            "dc":1500,
-                            "on_condition":"1,500원 할인 쿠폰 소지 및 30,000원 이상 주문 시"
-                        }
-                    ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[]
                 }
             ]
         },
         {
-            "name":"카레공방 서현점",
-            "service":[
+            "name": "땅끝수산",
+            "service": [
                 {
-                    "name":"배민(한집배달)",
-                    "delivery_available_price":12000,
-                    "delivery_time":"20~30분",
-                    "delivery_tip":"1,540원~4,440원",
-                    "promotions":[
+                    "name": "배민",
+                    "delivery_available_price": 30000,
+                    "delivery_time": "39~54분",
+                    "delivery_tip": 4000,
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         },
                         {
-                            "dc":1500,
-                            "on_condition":"첫 주문 1,500원 할인쿠폰 소지 시"
+                            "dc": 1500,
+                            "on_condition": "1,500원 할인 쿠폰 소지 및 30,000원 이상 주문 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": []
+                }
+            ]
+        },
+        {
+            "name": "카레공방-서현점",
+            "service": [
+                {
+                    "name": "배민(한집배달)",
+                    "delivery_available_price": 12000,
+                    "delivery_time": "20~30분",
+                    "delivery_tip": "1,540원~4,440원",
+                    "promotions": [
                         {
-                            "delivery_tip_on_condition":1540,
-                            "condition":"40,000원 이상"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         },
                         {
-                            "delivery_tip_on_condition":4440,
-                            "condition":"12,000원~40,000원 미만"
+                            "dc": 1500,
+                            "on_condition": "첫 주문 1,500원 할인쿠폰 소지 시"
+                        }
+                    ],
+                    "additional_dc": "",
+                    "delivery_tip_list": [
+                        {
+                            "delivery_tip_on_condition": 1540,
+                            "condition": "40,000원 이상"
+                        },
+                        {
+                            "delivery_tip_on_condition": 4440,
+                            "condition": "12,000원~40,000원 미만"
                         }
                     ]
                 },
                 {
-                    "name":"배민(알뜰배달)",
-                    "delivery_available_price":12000,
-                    "delivery_time":"27~42분",
-                    "delivery_tip":"1,540원~4,340원",
-                    "promotions":[
+                    "name": "배민(알뜰배달)",
+                    "delivery_available_price": 12000,
+                    "delivery_time": "27~42분",
+                    "delivery_tip": "1,540원~4,340원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"모든 메뉴 10% 중복할인 쿠폰 소지 시"
+                            "dc": "10%",
+                            "on_condition": "모든 메뉴 10% 중복할인 쿠폰 소지 시"
                         },
                         {
-                            "dc":1500,
-                            "on_condition":"첫 주문 1,500원 할인쿠폰 소지 시"
+                            "dc": 1500,
+                            "on_condition": "첫 주문 1,500원 할인쿠폰 소지 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":1540,
-                            "condition":"50,000원 이상"
+                            "delivery_tip_on_condition": 1540,
+                            "condition": "50,000원 이상"
                         },
                         {
-                            "delivery_tip_on_condition":2940,
-                            "condition":"40,000원~50,000원 미만"
+                            "delivery_tip_on_condition": 2940,
+                            "condition": "40,000원~50,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":3240,
-                            "condition":"30,000원~40,000원 미만"
+                            "delivery_tip_on_condition": 3240,
+                            "condition": "30,000원~40,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":3740,
-                            "condition":"24,000원~30,000원 미만"
+                            "delivery_tip_on_condition": 3740,
+                            "condition": "24,000원~30,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":4040,
-                            "condition":"14,000원~24,000원 미만"
+                            "delivery_tip_on_condition": 4040,
+                            "condition": "14,000원~24,000원 미만"
                         },
                         {
-                            "delivery_tip_on_condition":4340,
-                            "condition":"12,000원~14,000원 미만"
+                            "delivery_tip_on_condition": 4340,
+                            "condition": "12,000원~14,000원 미만"
                         }
                     ]
                 },
                 {
-                    "name":"쿠팡이츠",
-                    "delivery_available_price":12000,
-                    "delivery_time":"31~41분",
-                    "delivery_tip":"800원~4,300원",
-                    "promotions":[
+                    "name": "쿠팡이츠",
+                    "delivery_available_price": 12000,
+                    "delivery_time": "31~41분",
+                    "delivery_tip": "800원~4,300원",
+                    "promotions": [
                         {
-                            "dc":"10%",
-                            "on_condition":"와우회원"
+                            "dc": "10%",
+                            "on_condition": "와우회원"
                         },
                         {
-                            "dc":1500,
-                            "on_condition":"첫 주문 할인 쿠폰 소지 및 12,000원 이상 주문 시"
+                            "dc": 1500,
+                            "on_condition": "첫 주문 할인 쿠폰 소지 및 12,000원 이상 주문 시"
                         }
                     ],
-                    "additional_dc":"",
-                    "delivery_tip_list":[
+                    "additional_dc": "",
+                    "delivery_tip_list": [
                         {
-                            "delivery_tip_on_condition":800,
-                            "condition":"50,000원 이상+세이브배달"
+                            "delivery_tip_on_condition": 800,
+                            "condition": "50,000원 이상+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":1400,
-                            "condition":"50,000원 이상+한집배달"
+                            "delivery_tip_on_condition": 1400,
+                            "condition": "50,000원 이상+한집배달"
                         },
                         {
-                            "delivery_tip_on_condition":3700,
-                            "condition":"12,000원~50,000원 미만+세이브배달"
+                            "delivery_tip_on_condition": 3700,
+                            "condition": "12,000원~50,000원 미만+세이브배달"
                         },
                         {
-                            "delivery_tip_on_condition":4300,
-                            "condition":"12,000원~50,000원 미만+한집배달"
+                            "delivery_tip_on_condition": 4300,
+                            "condition": "12,000원~50,000원 미만+한집배달"
                         }
                     ]
                 }
