@@ -80,7 +80,7 @@ def saveDB(filename, name):
             # 리뷰 추가
             rv_img = ''
             for img in review['img']:
-                rv_img = rv_img + '|' + img
+                rv_img = img
             reviews.append(Review(store=t_store, content=review['review'], user=t_user, rate = review['rate'],
                                 image_path = rv_img, created_at = review['uploaded'], menu = review['order'], service = str(idx)))
             idx = (idx + 1) % 3
@@ -114,12 +114,17 @@ def saveOthers(filepath):
             fee_list = ''
             for fee in serv['delivery_tip_list']:
                 fee_list += fee['condition'] + ': ' + str(fee['delivery_tip_on_condition']) + '|'
+            fee_list = fee_list[:-1]
             prom_list = ''
             prom_cond = ''
             for prom in serv['promotions']:
                 prom_list += str(prom['dc']) + '|'
                 prom_cond += prom['on_condition'] + '|'
-            prom_list += serv['additional_dc']
+            if len(serv['additional_dc']) > 0:
+                prom_list += serv['additional_dc']
+            else:
+                prom_list = prom_list[:-1]
+            prom_cond = prom_cond[:-1]
             delivery_infos.append(Delivery_info(store=store, service=serv['name'], time=serv['delivery_time'], 
                                         fee=serv['delivery_tip'], fee_list = fee_list, prom=prom_list, 
                                         prom_cond=prom_cond, available = serv['delivery_available_price']))     
@@ -127,3 +132,8 @@ def saveOthers(filepath):
     Delivery_info.objects.bulk_create(delivery_infos)
 
 saveOthers('chicken_baemin_coupang')
+saveOthers('chinese_baemin_coupang')
+saveOthers('japanese_baemin_coupang')
+saveOthers('jokbal_baemin_coupang')
+saveOthers('korean_baemin_coupang')
+saveOthers('pizza_baemin_coupang')
