@@ -48,8 +48,7 @@
   }
   .background{
       width: 100%;
-      height: 60%;
-      background-image: url("https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg.flaticon.com%2Ficons%2Fpng%2F512%2F701%2F701984.png%3Fsize%3D1200x630f%26pad%3D10%2C10%2C10%2C10%26ext%3Dpng%26bg%3DFFFFFFFF&type=sc960_832");
+      height: 200px;
       font-size: 90px;
       color: #338888;
       line-height: 80px;
@@ -65,49 +64,68 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script> //드래그 앤 드롭 스크립트
   function dragstart_handler(ev) {
-    console.log("dragStart");
     //ev.currentTarget.style.border = "dashed";
     ev.dataTransfer.setData("text", ev.target.id);
     ev.effectAllowed = "copyMove";
   }
   function dragover_handler(ev) {
-    console.log("dragOver");
-    //ev.currentTarget.style.background = "lightblue";
     ev.preventDefault();
   }
   let cart_list = [];
 
   let cart_str = getCookie('cart');
-  if (cart_str){
-    cart_list = JSON.parse(cart_str)
-    console.log(cart_list)
-    for (item of cart_list){
-      renderCart(item)
+  console.log(cart_str)
+
+  document.addEventListener("DOMContentLoaded", function(event) {
+    let target = document.getElementById("dest_copy")
+    if (cart_str){
+      cart_list = JSON.parse('['+cart_str+']')
+      console.log(cart_list)
+      for( cart of cart_list){
+        item = renderCart(cart)
+        if(item.id !=="_undefined"){
+          target.appendChild(item)
+          cart_list.push(cart.name)
+        }
+        
+      }
+    } else{
+      cart_list = []
     }
+  });
 
-  } else{
-    cart_list = []
-  }
-
-  function renderCart(id){
-    id = id.substr(1)
-    console.log(document.getElementById(id), id)
-    var nodeCopy = document.getElementById(id).cloneNode(true);
-    nodeCopy.style.height = "140px";
-    nodeCopy.style.width = "250px";
-
-    var item = nodeCopy.querySelector(".menu-item");
-    item.style.width = "80%";
-    var button = nodeCopy.querySelector(".btn");
-    button.onclick = () => {
-      remove_cart("_" + id,ev)
-    };
-    button.style.display = "block";
-    ev.target.appendChild(nodeCopy);
-    nodeCopy.id = "_" + id
-    cart_list.push("_" + id);
-  }
   
+  function renderCart(cart_str){
+    let target = document.getElementById("dest_copy")
+    const cart_dict = cart_str
+    var li = document.createElement( "li" );
+    li.style.height = "140px";
+    li.style.width = "250px";
+    
+    const na_me = document.createElement("strong");
+    na_me.textContent = cart_dict.name;
+    
+    var desc = document.createElement("p")
+    desc.textContent = cart_dict.desc
+
+    var button = document.createElement("button");
+    button.style.float = "right";
+    button.setAttribute("aria-label","Close");
+    button.classList.add("btn", "btn-close"); 
+    button.type = "button";
+    n = cart_dict.name
+    button.onclick = () => {
+      remove_cart("_"+n,target)
+    };
+    
+    li.appendChild(button);
+    li.appendChild(na_me);
+    li.appendChild(desc);
+
+    li.setAttribute("id","_"+n);
+
+    return li
+  }
 
   function check_cart(){
     if (cart_list.length !== 0) {
@@ -118,26 +136,19 @@
     }
   }
   function drop_handler(ev) {
-    console.log("Drop");
     ev.preventDefault();
     var id = ev.dataTransfer.getData("text");
-    console.log(id)
-    if (!cart_list.includes("_" + id) && ev.target.id == "dest_copy") {
+    if (ev.target.id === "dest_copy") {
       var nodeCopy = document.getElementById(id).cloneNode(true);
-      nodeCopy.style.height = "140px";
-      nodeCopy.style.width = "250px";
+      cart_dict = {
+        'name' : nodeCopy.id,
+        'desc' : nodeCopy.textContent,
+      }
 
-      var item = nodeCopy.querySelector(".menu-item");
-      item.style.width = "80%";
-      var button = nodeCopy.querySelector(".btn");
-      button.onclick = () => {
-        remove_cart("_" + id,ev)
-      };
-      button.style.display = "block";
-      ev.target.appendChild(nodeCopy);
-      nodeCopy.id = "_" + id
-      cart_list.push("_" + id);
-      cart_str = JSON.stringify(cart_list)
+      cart_str = JSON.stringify(cart_dict)
+      item = renderCart(cart_dict)
+      ev.target.appendChild(item);
+      cart_list.push(id);
       AddCookie('cart', cart_str)
       check_cart()
 
@@ -145,19 +156,18 @@
   }
 
   function remove_element(ev){
-    console.log('del');
     ev.dataTransfer.setData("text", ev.target.id);
   }
 
   function remove_cart(id,ev) {
-    if (cart_list.includes(id) && ev.target.id == "dest_copy") {
+
+    if (ev.id === "dest_copy") {
+      console.log(id)
       const child = document.getElementById(id);
-      ev.target.removeChild(child);
-      var idx = cart_list.indexOf(id)
-      cart_list.splice(idx,1);
+      ev.removeChild(child);
       cart_str = JSON.stringify(cart_list)
+      console.log(cart_str)
       AddCookie('cart', cart_str)
-      // DelCookie('cart', id.substr(1))
       check_cart()
     }
   }
@@ -169,32 +179,35 @@
     //ev.target.style.border = "solid black";
   }
 
-  function SetCookie( strName, strValue, iSecond ){
+  var listValue = []
+  function SetCookie( strName, Value, iSecond ){
 			// {% comment %} var strCookie = strName + "=" + encodeURIComponent(strValue); {% endcomment %}
-			var strCookie = strName + "=" + strValue;
+      listValue.push(Value)
+
+      var listCookie = strName + "=" + listValue;
 
 			if( typeof iSecond === "number" )
 			{
-				strCookie += "; max-age=" + iSecond;
+				listCookie += "; max-age=" + iSecond;
 			}
 
-			// QQQ: path, domain 유효범위를 설정하고 싶으면 여기서 strCookie 변수에 추가해 주어야 한다.
+			// QQQ: path, domain 유효범위를 설정하고 싶으면 여기서 listCookie 변수에 추가해 주어야 한다.
 
-			document.cookie = strCookie;
+			document.cookie = listCookie;
   }
 
-  function AddCookie(id, st)
+  function AddCookie(id, lv)
   {
     var strName = id;
-    var strValue = st;
-    SetCookie( strName, strValue, null );
+    var listValue = lv;
+    SetCookie( strName, listValue, null );
   }
   
-  function DelCookie(id, st)
+  function DelCookie(id, lv)
   {
     var strName = id;
-    var strValue = st;
-    SetCookie( strName, strValue, 0 );
+    var listValue = lv;
+    SetCookie( strName, listValue, 0 );
   }
   function getCookie(name) {
     var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -206,7 +219,7 @@
 <script>// 요소 생성, 제거 스크립트
 
 function switch_Display() {
-  if(document.getElementById("Display_On_Off").style.display == "none") {
+  if(document.getElementById("Display_On_Off").style.display === "none") {
     window.scrollTo({top:0, behavior:"smooth"});
     document.getElementById("start-menu").style.display = "none";
     document.getElementById("Display_On_Off").style.display = "block";
@@ -227,7 +240,7 @@ function switch_Display() {
               var cookie = cookies[i].trim();
               // Does this cookie string begin with the name we want?
               if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  cookieValue = (cookie.substring(name.length + 1));
                   break;
               }
           }
@@ -253,7 +266,6 @@ function switch_Display() {
   $(document).on('submit', '#post-form', function(e){
 
     e.preventDefault();
-    console.log(e.target.getElementsByTagName('strong')[0].textContent)   
     
     $.ajax({
       type: 'POST',
@@ -266,7 +278,6 @@ function switch_Display() {
         let menu_html = ''
         for(const me of menu.menu_list){
           menu_html = menu_html + ('<li style="height: 100pt; margin-bottom: 15px;" class="list-group-item ellipsis" draggable="true" id="'+ me.name +'" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);">\
-                            <button type="button" aria-label="Close" class="btn btn-close" style="float: right; display:none"></button>\
                             <div class="menu-item">\
                               <p><strong>' + me.name+ '</strong></p>\
                               <p>')
@@ -278,9 +289,9 @@ function switch_Display() {
                             <thead>\
                               <tr>\
                                 <th scope="col"></th>\
-                                <th scope="col">'+ menu.service[0]+'</th>\
-                                <th scope="col">'+ menu.service[1]+'</th>\
-                                <th scope="col">'+ menu.service[2]+'</th>\
+                                <th scope="col">쿠팡이츠</th>\
+                                <th scope="col">요기요</th>\
+                                <th scope="col">배달의 민족</th>\
                               </tr>\
                             </thead>\
                             <tbody>\

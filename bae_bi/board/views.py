@@ -31,6 +31,7 @@ def category(request, category_name):
     }
     for sto in cat_list.category_set.all():
         store_dict = {
+            'id': str(sto.id),
             'name': sto.name,
             'adrs': sto.address,
             'sale': ''
