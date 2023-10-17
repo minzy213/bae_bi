@@ -26,12 +26,12 @@ from board.models import Category, Store, Delivery_info, Menu, Promotion, User, 
 # Category 저장, img path 추가 필요
 
 categories = []
-categories.append(Category(name="치킨", url = "chicken"))
-categories.append(Category(name="중국집", url = "chinese"))
-categories.append(Category(name="일식", url = "japanese"))
-categories.append(Category(name="족발", url = "jokbal"))
-categories.append(Category(name="한식", url = "korean"))
-categories.append(Category(name="피자", url = "pizza"))
+categories.append(Category(name="치킨", url = "chicken", img_path = 'static/bootstrap/images/chicken.png'))
+categories.append(Category(name="중식", url = "chinese", img_path = 'bootstrap/images/chinese.png'))
+categories.append(Category(name="일식", url = "japanese", img_path = './static/bootstrap/images/japanese.png'))
+categories.append(Category(name="족발", url = "jokbal", img_path = './static/bootstrap/images/jokbal.png'))
+categories.append(Category(name="한식", url = "korean", img_path = './static/bootstrap/images/korean.png'))
+categories.append(Category(name="피자", url = "pizza", img_path = './static/bootstrap/images/pizza.png'))
 Category.objects.bulk_create(categories)
 
 
@@ -47,7 +47,7 @@ def saveDB(filename, name):
     idx = 0
     for rest in info['restaurants']:
         # store 추가
-        t_store = Store.objects.create(name=rest['name'], address='', avg_rate=rest['avg_rate'], category=t_ct, 
+        t_store = Store.objects.create(name=rest['name'], address=rest['address'], avg_rate=rest['avg_rate'], category=t_ct, 
                             thumbnail_path=rest['logo'])
         
         # 요기요 배달정보 추가
@@ -82,7 +82,7 @@ def saveDB(filename, name):
             for img in review['img']:
                 rv_img = img
             reviews.append(Review(store=t_store, content=review['review'], user=t_user, rate = review['rate'],
-                                image_path = rv_img, created_at = review['uploaded'], menu = review['order'], service = str(idx)))
+                                image_path = rv_img, created_at = '| ' + review['uploaded'], menu = review['order'], service = str(idx)))
             idx = (idx + 1) % 3
             
     Promotion.objects.bulk_create(promotions)
