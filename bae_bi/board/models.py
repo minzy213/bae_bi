@@ -68,5 +68,5 @@ class Review(models.Model):
     service = models.CharField(max_length=255, null=True, default='')
     rate = models.CharField(max_length=255)
     image_path = models.CharField(max_length=255, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.CharField(max_length=255, null=True, default='')
     menu = models.TextField(null=True)
