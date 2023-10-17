@@ -90,7 +90,7 @@ def saveDB(filename, name):
     Delivery_info.objects.bulk_create(delivery_infos)
     
 saveDB('chicken', '치킨')
-saveDB('chinese', '중국집')
+saveDB('chinese', '중식')
 saveDB('japanese', '일식')
 saveDB('jokbal', '족발')
 saveDB('korean', '한식')

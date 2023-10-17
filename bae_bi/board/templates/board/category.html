@@ -43,7 +43,7 @@
   overflow: scroll;
   text-overflow: ellipsis;
   overflow: auto;
-  overflow-y: hidden
+  overflow-y: hidden;
   white-space:nowrap;
   }
   .background{
@@ -61,6 +61,8 @@
   }
 
 </style>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script> //드래그 앤 드롭 스크립트
   function dragstart_handler(ev) {
@@ -68,9 +70,14 @@
     ev.dataTransfer.setData("text", ev.target.id);
     ev.effectAllowed = "copyMove";
   }
+
+
   function dragover_handler(ev) {
     ev.preventDefault();
   }
+
+
+
   let cart_list = [];
 
   let cart_str = getCookie('cart');
@@ -115,7 +122,7 @@
     button.type = "button";
     n = cart_dict.name
     button.onclick = () => {
-      remove_cart("_"+n,target)
+      remove_cart(n,target)
     };
     
     li.appendChild(button);
@@ -162,12 +169,10 @@
   function remove_cart(id,ev) {
 
     if (ev.id === "dest_copy") {
-      console.log(id)
       const child = document.getElementById(id);
-      ev.removeChild(child);
-      cart_str = JSON.stringify(cart_list)
-      console.log(cart_str)
-      AddCookie('cart', cart_str)
+      console.log(child)
+      DelCookie('cart', child)
+      location.reload();
       check_cart()
     }
   }
@@ -223,10 +228,16 @@ function switch_Display() {
     window.scrollTo({top:0, behavior:"smooth"});
     document.getElementById("start-menu").style.display = "none";
     document.getElementById("Display_On_Off").style.display = "block";
+
   } else {
     document.getElementById("Display_On_Off").style.display = "none";
     document.getElementById("start-menu").style.display = "block";
   }
+}
+const name = ''
+function get_name(ev){
+
+
 }
 
 </script>
@@ -289,9 +300,9 @@ function switch_Display() {
                             <thead>\
                               <tr>\
                                 <th scope="col"></th>\
-                                <th scope="col">'+ menu.service[0]+'</th>\
-                                <th scope="col">'+ menu.service[1]+'</th>\
-                                <th scope="col">'+ menu.service[2]+'</th>\
+                                <th scope="col">쿠팡이츠</th>\
+                                <th scope="col">요기요</th>\
+                                <th scope="col">배달의 민족</th>\
                               </tr>\
                             </thead>\
                             <tbody>\
@@ -367,7 +378,7 @@ function switch_Display() {
                 <li style="height: 100pt;" class="list-group-item">
                   <form action="" id="post-form">
                     {% csrf_token %}
-                    <button id="store_name" style="text-align: left;" type="submit" onclick="switch_Display();" name="store_name"><strong>{{store.name}}</strong></button>
+                    <button id="store_name" style="text-align: left;" type="submit" onclick="switch_Display();" name="{{ forloop.counter }}"><strong>{{store.name}}</strong></button>
                     <p style="text-align: left;">{{store.adrs}} | {{store.sale}}</p>
                   </form>
                 </li>
@@ -403,6 +414,7 @@ function switch_Display() {
           <!--tabA end-->
           <!--tabB start--> 
           <div id="tabB" class="tabcontent" style="display: none;">
+            <img src="static//wordclouds/chicken/wc1.png" alt="">
             <div class="card-body mb-3 border-bottom border-5" style="height: 180px;">
               <label for="exampleFormControlTextarea1" class="form-label">댓글 작성하기</label>
               <input class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-bottom: 6px;"></input>

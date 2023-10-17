@@ -24,22 +24,27 @@ def category(request, category_name):
         return comp_cart(request)
     cat_list = Category.objects.get(url=category_name)  # 한식 id 5
     cat_dict = {
-        'name': cat_list.name,
+        'name': j2hcj(h2j(cat_list.name)),
+        'eng_name': category_name,
         'store_list': []
     }
     for sto in cat_list.category_set.all():
         store_dict = {
+            'id': str(sto.id),
             'name': sto.name,
             'adrs': sto.address,
             'sale': ''
         }
         for ino in sto.dlv_store_set.all():
-            if len(ino.prom) > 0:
+            if (len(ino.prom.split('|')) > 1) & (len(ino.prom_cond.split('|')) > 1):
+                s_cond = ino.prom_cond.split('|')[0]
+                s_prom = ino.prom.split('|')[0]
+                store_dict['sale'] += f' | {ino.service}: {s_cond} {s_prom}'
+            elif len(ino.prom) > 0:
                 store_dict['sale'] += f' | {ino.service}: {ino.prom_cond} {ino.prom}'
         if len(store_dict['sale']) > 0:
             store_dict['sale'] += ' |'
         cat_dict['store_list'].append(store_dict)
-    print(cat_dict)
     return render(request, 'board/category.html', {'cat_list': cat_dict})
     
 def update(request):
