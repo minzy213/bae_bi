@@ -385,7 +385,7 @@ function get_name(ev){
                     {% csrf_token %}
                     <button id="store_name" style="text-align: left;" type="submit" onclick="switch_Display();" name="{{ forloop.counter }}"><strong>{{store.name}}</strong></button>
                     <p style="text-align: left;">{{store.adrs}}</p>
-                    <p{{store.sale}}</p>
+                    <p style="text-align: left;">{{store.sale}}</p>
                   </form>
                 </li>
               {% endfor %}
