@@ -9,7 +9,7 @@ def main(request):
 
     for cat in cat_list:
         cat_dict = {
-            'id': cat.id,
+            'id': str(cat.id),
             'name': cat.name,
             'url': cat.url,
             'img_path': f'/static/images/{cat.url}.png',
@@ -57,6 +57,7 @@ def update(request):
         st_list = Store.objects.filter(name = detail['name'])
         
         for store in st_list:
+            detail['id'] = store.id
             for delivery in store.dlv_store_set.all():
                 idx = 1
                 if delivery.service.find('배민'):

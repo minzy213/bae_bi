@@ -277,7 +277,7 @@ function get_name(ev){
   $(document).on('submit', '#post-form', function(e){
 
     e.preventDefault();
-    
+    var wc = 0
     $.ajax({
       type: 'POST',
       url: '/update',
@@ -343,7 +343,10 @@ function get_name(ev){
             review.menu = review.menu.substr(0, 25) + "...";
 
           }
-
+          if (wc === 0){
+            review_list += '<img src="../static/bootstrap/wordclouds/wc' + menu.id +'.png" alt="">'
+            wc = 1
+          }
           review_list += '<li class="card">\
                   <div class="card-body" style="display: flex;">\
                     <img class="border rounded border-0" src="'+ platform_img +'" alt="img" style="width: 30px; height:30px; float: left;">\
@@ -417,7 +420,6 @@ function get_name(ev){
           <!--tabA end-->
           <!--tabB start--> 
           <div id="tabB" class="tabcontent" style="display: none;">
-            <img src="static//wordclouds/chicken/wc1.png" alt="">
             <div class="card-body mb-3 border-bottom border-5" style="height: 180px;">
               <label for="exampleFormControlTextarea1" class="form-label">댓글 작성하기</label>
               <input class="form-control" id="exampleFormControlTextarea1" rows="3" style="margin-bottom: 6px;"></input>
